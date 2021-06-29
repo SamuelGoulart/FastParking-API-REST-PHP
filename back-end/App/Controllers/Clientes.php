@@ -4,13 +4,11 @@ session_start();
 use App\Core\Controller;
 
 class Clientes extends Controller {
-
     // lista todos os carros cadastrados
     public function index() {
-
         $clienteModel = $this->model("Cliente");
         $dados = $clienteModel->listarTodos();
-
+     
         echo json_encode($dados, JSON_UNESCAPED_UNICODE);
     }
 
@@ -75,7 +73,6 @@ class Clientes extends Controller {
     }
 
     public function update($id){
-
         $json = file_get_contents("php://input");
 
         $clienteEditar = json_decode($json);

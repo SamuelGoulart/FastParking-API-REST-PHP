@@ -28,7 +28,7 @@ class Router
             $this->controller = $url[1];
             unset($url[1]);
         } elseif (empty($url[1])) {
-            $this->controller = "produtos";
+            $this->controller = "clientes";
         } else {
             $this->controller = "erro404";
         }

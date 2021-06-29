@@ -11,6 +11,7 @@ class Controller {
         return new $model;
     }
 
+
     //recebe a view que vai ser renderizado e passa para o template
     //passa também os dados para a view
     public function view($view, $data = []){
