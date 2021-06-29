@@ -4,7 +4,6 @@ session_start();
 use App\Core\Controller;
 
 class Clientes extends Controller {
-    // lista todos os carros cadastrados
     public function index() {
         $clienteModel = $this->model("Cliente");
         $dados = $clienteModel->listarTodos();
@@ -21,7 +20,6 @@ class Clientes extends Controller {
             echo json_encode($clienteModel, JSON_UNESCAPED_UNICODE);
  
          }else{
-             //não encontrou a categoria id
              http_response_code(404);
  
              $erro = ["erro" => "Cliente não encontrado"];
@@ -41,7 +39,7 @@ class Clientes extends Controller {
         $clienteModel->dataEntrada = $novoCliente->dataEntrada;
         $clienteModel->horaEntrada = $novoCliente->horaEntrada;
         $clienteModel->status = $novoCliente->status;
-        $clienteModel->idUsuario = $novoCliente->idUsuario;
+        $clienteModel->idPreco = $novoCliente->idPreco;
 
         $clienteModel = $clienteModel->inserir();
         if ($clienteModel) {

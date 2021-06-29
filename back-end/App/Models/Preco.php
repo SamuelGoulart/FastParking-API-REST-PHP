@@ -9,7 +9,7 @@ class Preco {
     public $demaisHoras;
 
     public function listarTodos() {
-        $sql = " SELECT * FROM tblPrecoEstacionamento ";
+        $sql = " SELECT * FROM tblPrecos";
 
         $stmt = Model::getConn()->prepare($sql);
         $stmt->execute();
@@ -24,8 +24,7 @@ class Preco {
     }
 
     public function inserir() {
-
-        $sql = " INSERT INTO tblPrecoEstacionamento (umaHora, demaisHoras) VALUES (?, ?) ";
+        $sql = " INSERT INTO tblPrecos (umaHora, demaisHoras) VALUES (?, ?) ";
 
         $stmt = Model::getConn()->prepare($sql);
         $stmt->bindValue(1, $this->umaHora);
@@ -40,8 +39,8 @@ class Preco {
 
     public function atualizar() {
 
-        $sql = " UPDATE tblPrecoEstacionamento SET
-                  umaHora = ?, demaisHoras = ? WHERE idPrecoEstacionamento = ? ";
+        $sql = " UPDATE tblPrecos SET
+                  umaHora = ?, demaisHoras = ? WHERE idPreco = ? ";
         $stmt = Model::getConn()->prepare($sql);
         $stmt->bindValue(1, $this->umaHora);
         $stmt->bindValue(2, $this->demaisHoras);

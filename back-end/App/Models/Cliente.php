@@ -13,6 +13,7 @@ class Cliente {
     public $horaSaida;
     public $status;
     public $valorPago;
+    public $idPreco;
 
     public function listarTodos() {
 
@@ -58,9 +59,9 @@ class Cliente {
     }
 
     public function inserir() {
-
+        
         $sql = " INSERT INTO tblClientes 
-                (nome, placa, dataEntrada, horaEntrada, status, idUsuario) 
+                (nome, placa, dataEntrada, horaEntrada, status, idPreco) 
                 VALUES (?, ?, ?, ?, ?, ?) ";
 
         $stmt = Model::getConn()->prepare($sql);
@@ -69,7 +70,7 @@ class Cliente {
         $stmt->bindValue(3, $this->dataEntrada);
         $stmt->bindValue(4, $this->horaEntrada);
         $stmt->bindValue(5, $this->status);
-        $stmt->bindValue(6, $this->idUsuario);
+        $stmt->bindValue(6, $this->idPreco);
 
         if ($stmt->execute()) {
            $this->id = Model::getConn()->lastInsertId();
@@ -87,9 +88,8 @@ class Cliente {
     }
 
     public function atualizar() {
-
-        $sql = " update tblClientes set 
-                 nome = ?, placa = ? where idCliente = ? ";
+        $sql = " UPDATE tblClientes SET 
+                 nome = ?, placa = ? WHERE idCliente = ? ";
         $stmt = Model::getConn()->prepare($sql);
         $stmt->bindValue(1, $this->nome);
         $stmt->bindValue(2, $this->placa);

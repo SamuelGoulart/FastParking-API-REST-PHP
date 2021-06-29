@@ -13,11 +13,11 @@ class Precos extends Controller {
 
     public function store(){
         $json = file_get_contents("php://input");
-        $novoPreco = json_decode($json);
+        $inserirPrecos = json_decode($json);
 
         $precoModel = $this->model("Preco");
-        $precoModel->umaHora = $novoPreco->umaHora;
-        $precoModel->demaisHoras = $novoPreco->demaisHoras;
+        $precoModel->umaHora = $inserirPrecos->umaHora;
+        $precoModel->demaisHoras = $inserirPrecos->demaisHoras;
 
         $precoModel = $precoModel->inserir();
 
