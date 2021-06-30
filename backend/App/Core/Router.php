@@ -13,8 +13,11 @@ class Router
 
     private $params = [];
 
-    function __construct()
-    {
+    function __construct() {
+
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+        header("Access-Control-Allow-Headers: Content-Type");
 
         //pegar a url que está sendo acessada
         $url = $this->parseURL();
@@ -47,7 +50,7 @@ class Router
                 if (isset($url[2])) {
                     $this->controllerMethod = "find";
                     $this->params = [$url[2]];
-                }else{
+                } else {
                     $this->controllerMethod = "index";
                 }
                 break;
@@ -58,9 +61,9 @@ class Router
 
             case "PUT":
                 $this->controllerMethod = "update";
-                if(isset($url[2]) && is_numeric($url[2])){
+                if (isset($url[2]) && is_numeric($url[2])) {
                     $this->params = [$url[2]];
-                }else{
+                } else {
                     http_response_code(400);
                     echo json_encode(["erro" => "É necessário informar um id"]);
                     exit;
@@ -69,9 +72,9 @@ class Router
 
             case "DELETE":
                 $this->controllerMethod = "delete";
-                if(isset($url[2]) && is_numeric($url[2])){
+                if (isset($url[2]) && is_numeric($url[2])) {
                     $this->params = [$url[2]];
-                }else{
+                } else {
                     http_response_code(400);
                     echo json_encode(["erro" => "É necessário informar um id"]);
                     exit;
@@ -83,7 +86,7 @@ class Router
                 exit;
                 break;
         }
-   
+
         call_user_func_array([$this->controller, $this->controllerMethod], $this->params);
     }
 

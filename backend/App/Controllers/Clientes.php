@@ -4,6 +4,7 @@ session_start();
 use App\Core\Controller;
 
 class Clientes extends Controller {
+    
     public function index() {
         $clienteModel = $this->model("Cliente");
         $dados = $clienteModel->listarTodos();

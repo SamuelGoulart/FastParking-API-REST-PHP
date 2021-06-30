@@ -97,7 +97,7 @@ const cancelVoucherEntry = () => {
 }
 
 const insertDB = async (clientData) => {
-    const url = "http://api.fastparking.com.br/clientes"
+    const url = "http://local.fastparking.com.br/clientes"
     const options = {
         method: 'POST',
         body: JSON.stringify(clientData)
@@ -106,7 +106,7 @@ const insertDB = async (clientData) => {
 }
 
 const insertPrice = async (registerPrices) => {
-    const url = "http://api.fastparking.com.br/precos"
+    const url = "http://local.fastparking.com.br/precos"
     const options = {
         method: 'POST',
         body: JSON.stringify(registerPrices)
@@ -116,7 +116,7 @@ const insertPrice = async (registerPrices) => {
 
 const updateClient = async () => {
 
-    const url = "http://api.fastparking.com.br/clientes"
+    const url = "http://local.fastparking.com.br/clientes"
 
     const options = {
         method: 'PUT',
@@ -160,7 +160,7 @@ const clearTable = () => {
 
 const updateTable = async () => {
     clearTable()
-    const url = "http://api.fastparking.com.br/clientes"
+    const url = "http://local.fastparking.com.br/clientes"
     const clientes = await getContact(url)
     const customersWhoDidNotPay = clientes.filter(clientes => clientes.status == 0);
     customersWhoDidNotPay.forEach(createRegistration)
@@ -201,7 +201,7 @@ const enableButton = () => {
 const printProofOfEntry = async () => {
     closeChoiceVoucher()
     const index = document.querySelector('#btnPagamento').dataset.index
-    const url = "http://api.fastparking.com.br/clientes"
+    const url = "http://local.fastparking.com.br/clientes"
     const data = await getContact(url)
     const clientEqualId = data.filter(data => data.idCliente == index)
     console.log(clientEqualId)
@@ -226,7 +226,7 @@ const saveClient = async () => {
 
     if (isValidForm()) {
 
-        const urlPrice = "http://api.fastparking.com.br/precos"
+        const urlPrice = "http://local.fastparking.com.br/precos"
         const dataPrice = await getContact(urlPrice)
 
         if (dataPrice.length == 0) {
@@ -246,7 +246,7 @@ const saveClient = async () => {
 
             updateTable()
 
-            const url = "http://api.fastparking.com.br/clientes"
+            const url = "http://local.fastparking.com.br/clientes"
             const data = await getContact(url)
 
             const getTheLastRegisteredCustomerId = data.length
@@ -260,7 +260,7 @@ const saveClient = async () => {
 }
 
 const updatePrice = async () => {
-    const url = "http://api.fastparking.com.br/precos"
+    const url = "http://local.fastparking.com.br/precos"
     const options = {
         method: 'PUT',
         body: JSON.stringify({
@@ -282,7 +282,7 @@ const savePrice = async () => {
             'demaisHoras': (document.querySelector('#precoAteUmaHora').value).replace(',', '.')
         }
 
-        const url = "http://api.fastparking.com.br/precos"
+        const url = "http://local.fastparking.com.br/precos"
         const dataPrice = await getContact(url)
 
         dataPrice.length == 0 ? insertPrice(price) : updatePrice(price)
@@ -314,7 +314,7 @@ const applyMaskCar = (event) => {
 
 const deleteClient = async (index) => {
 
-    const url = "http://api.fastparking.com.br/clientes"
+    const url = "http://local.fastparking.com.br/clientes"
     const data = await getContact(url)
     const clientEqualId = data.filter(data => data.idCliente == index)
 
@@ -331,7 +331,7 @@ const deleteClient = async (index) => {
 }
 
 const editClient = async (index) => {
-    const url = "http://api.fastparking.com.br/clientes"
+    const url = "http://local.fastparking.com.br/clientes"
     const data = await getContact(url)
     const clientEqualId = data.filter(data => data.idCliente == index)
 
@@ -349,11 +349,11 @@ const editClient = async (index) => {
 
 const printOutProof = async () => {
 
-    const url = "http://api.fastparking.com.br/clientes"
+    const url = "http://local.fastparking.com.br/clientes"
     const data = await getContact(url)
 
 
-    const urlPrice = "http://api.fastparking.com.br/precos"
+    const urlPrice = "http://local.fastparking.com.br/precos"
     const dataPrice = await getContact(urlPrice)
 
     const index = document.querySelector('#btnPagamento').dataset.index
@@ -390,11 +390,11 @@ const printOutProof = async () => {
 
     dataPrice.forEach(data => {
         if (numberOfHoursThatAreParked <= 1) {
-            document.querySelector('#valorPagar').value = 'R$ ' + data.umaHora
+            (document.querySelector('#valorPagar').value = 'R$ ' + data.umaHora).split('-').reverse().join('.')
         } else {
             const onehourPrice = data.umaHora.replace(",", ".")
             const otherHoursPrice = data.demaisHoras.replace(",", ".")
-            document.querySelector('#valorPagar').value = 'R$ ' + (otherHoursPrice * Math.trunc(numberOfHoursThatAreParked) + parseFloat(data.umaHora))
+            (document.querySelector('#valorPagar').value = 'R$ ' + (otherHoursPrice * Math.trunc(numberOfHoursThatAreParked) + parseFloat(data.umaHora)))
         }
     })
 
@@ -409,7 +409,7 @@ const modalVoucherChoice = (index) => {
 
 const showModalPrice = async () => {
 
-    const url = "http://api.fastparking.com.br/precos"
+    const url = "http://local.fastparking.com.br/precos"
     const dataPrice = await getContact(url)
     dataPrice.forEach(dataPrice => {
         document.querySelector('#umaHoraPreco').value = dataPrice.umaHora.replace('.', ',')
