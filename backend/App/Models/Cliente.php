@@ -2,7 +2,8 @@
 
 use App\Core\Model;
 
-class Cliente {
+class Cliente
+{
 
     public $id;
     public $nome;
@@ -15,7 +16,8 @@ class Cliente {
     public $valorPago;
     public $idPreco;
 
-    public function listarTodos() {
+    public function listarTodos()
+    {
 
         $sql = " SELECT * FROM tblClientes ";
 
@@ -30,7 +32,8 @@ class Cliente {
         }
     }
 
-    public function buscarPorId($id) {
+    public function buscarPorId($id)
+    {
 
         $sql = " SELECT * FROM tblClientes WHERE idCliente = ? ";
         $stmt = Model::getConn()->prepare($sql);
@@ -58,45 +61,54 @@ class Cliente {
         }
     }
 
-    public function inserir() {
-        
+    public function inserir()
+    {
+
         $sql = " INSERT INTO tblClientes 
                 (nome, placa, dataEntrada, horaEntrada, status, idPreco) 
-                VALUES (?, ?, ?, ?, ?, ?) ";
+                VALUES (?, ucase(?), current_date(), curtime(), ?, ?) ";
 
         $stmt = Model::getConn()->prepare($sql);
         $stmt->bindValue(1, $this->nome);
         $stmt->bindValue(2, $this->placa);
-        $stmt->bindValue(3, $this->dataEntrada);
-        $stmt->bindValue(4, $this->horaEntrada);
-        $stmt->bindValue(5, $this->status);
-        $stmt->bindValue(6, $this->idPreco);
+        $stmt->bindValue(3, 0);
+        $stmt->bindValue(4, 1);
 
         if ($stmt->execute()) {
-           $this->id = Model::getConn()->lastInsertId();
-           return $this;
-        }else{
+            $this->id = Model::getConn()->lastInsertId();
+            return $this;
+        } else {
             return false;
         }
     }
 
-    public function deletar() {
+    public function deletar()
+    {
         $sql = " DELETE FROM tblClientes WHERE idCliente = ? ";
         $stmt = Model::getConn()->prepare($sql);
         $stmt->bindValue(1, $this->id);
         return $stmt->execute();
     }
 
-    public function atualizar() {
-        $sql = " UPDATE tblClientes SET 
-                 nome = ?, placa = ? WHERE idCliente = ? ";
-        $stmt = Model::getConn()->prepare($sql);
-        $stmt->bindValue(1, $this->nome);
-        $stmt->bindValue(2, $this->placa);
-        $stmt->bindValue(3, $this->id);
+    public function atualizar()
+    {
+
+        if ($this->nome != null) {
+
+            $sql = " UPDATE tblClientes SET 
+            nome = ?, placa = ? WHERE idCliente = ? ";
+            $stmt = Model::getConn()->prepare($sql);
+            $stmt->bindValue(1, $this->nome);
+            $stmt->bindValue(2, $this->placa);
+            $stmt->bindValue(3, $this->id);
+
+        } else {
+            $sql = " UPDATE tblClientes SET dataSaida = current_date(), horaSaida = curtime(), status = 1, valorPago = ? WHERE idCliente = ? ";
+            $stmt = Model::getConn()->prepare($sql);
+            $stmt->bindValue(1, $this->valorPago);
+            $stmt->bindValue(2, $this->id);
+        }
+
         return $stmt->execute();
     }
-
-
-
 }

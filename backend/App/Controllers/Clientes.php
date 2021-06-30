@@ -37,10 +37,6 @@ class Clientes extends Controller {
         $clienteModel = $this->model("Cliente");
         $clienteModel->nome = $novoCliente->nome;
         $clienteModel->placa = $novoCliente->placa;
-        $clienteModel->dataEntrada = $novoCliente->dataEntrada;
-        $clienteModel->horaEntrada = $novoCliente->horaEntrada;
-        $clienteModel->status = $novoCliente->status;
-        $clienteModel->idPreco = $novoCliente->idPreco;
 
         $clienteModel = $clienteModel->inserir();
         if ($clienteModel) {
@@ -87,6 +83,7 @@ class Clientes extends Controller {
         $clienteModel->id = $id;
         $clienteModel->nome = $clienteEditar->nome;
         $clienteModel->placa = $clienteEditar->placa;
+        $clienteModel->valorPago = $clienteEditar->valorPago;
            
         if($clienteModel->atualizar()){
             http_response_code(204);
