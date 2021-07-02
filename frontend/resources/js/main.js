@@ -313,10 +313,11 @@ const deleteClient = async (index) => {
 
     const url = "http://api.fastparking.com.br/clientes"
     const data = await getContact(url)
+
     const clientEqualId = data.filter(data => data.idCliente == index)
 
     const reasonToDelete = prompt(`Por qual motivo deseja deletar ${clientEqualId[0].nome}?`)
-    const resp = reasonToDelete == '' ? alert("Informe um motivo!") : confirm(`Confirma que o motivo da exclusão é ${reasonToDelete}`)
+    const resp = reasonToDelete.length < 3 ? alert("Informe um motivo!") : confirm(`Confirma que o motivo da exclusão é ${reasonToDelete}`)
 
     if (resp) {
         const options = {

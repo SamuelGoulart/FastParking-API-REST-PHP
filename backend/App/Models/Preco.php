@@ -9,7 +9,7 @@ class Preco {
     public $demaisHoras;
 
     public function listarTodos() {
-        $sql = " SELECT * FROM tblPrecos";
+        $sql = " SELECT * FROM tblPrecos ";
 
         $stmt = Model::getConn()->prepare($sql);
         $stmt->execute();

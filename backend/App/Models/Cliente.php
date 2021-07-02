@@ -65,14 +65,13 @@ class Cliente
     {
 
         $sql = " INSERT INTO tblClientes 
-                (nome, placa, dataEntrada, horaEntrada, status, idPreco) 
-                VALUES (?, ucase(?), current_date(), curtime(), ?, ?) ";
+                (nome, placa, dataEntrada, horaEntrada, status) 
+                VALUES (?, ucase(?), current_date(), curtime(), ? ) ";
 
         $stmt = Model::getConn()->prepare($sql);
         $stmt->bindValue(1, $this->nome);
         $stmt->bindValue(2, $this->placa);
         $stmt->bindValue(3, 0);
-        $stmt->bindValue(4, 1);
 
         if ($stmt->execute()) {
             $this->id = Model::getConn()->lastInsertId();
@@ -92,22 +91,12 @@ class Cliente
 
     public function atualizar()
     {
-
-        if ($this->nome != null) {
-
-            $sql = " UPDATE tblClientes SET 
+        $sql = " UPDATE tblClientes SET 
             nome = ?, placa = ? WHERE idCliente = ? ";
-            $stmt = Model::getConn()->prepare($sql);
-            $stmt->bindValue(1, $this->nome);
-            $stmt->bindValue(2, $this->placa);
-            $stmt->bindValue(3, $this->id);
-
-        } else {
-            $sql = " UPDATE tblClientes SET dataSaida = current_date(), horaSaida = curtime(), status = 1, valorPago = ? WHERE idCliente = ? ";
-            $stmt = Model::getConn()->prepare($sql);
-            $stmt->bindValue(1, $this->valorPago);
-            $stmt->bindValue(2, $this->id);
-        }
+        $stmt = Model::getConn()->prepare($sql);
+        $stmt->bindValue(1, $this->nome);
+        $stmt->bindValue(2, $this->placa);
+        $stmt->bindValue(3, $this->id);
 
         return $stmt->execute();
     }
