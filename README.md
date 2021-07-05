@@ -29,12 +29,15 @@
 ``` bash
  /clientes
     {
+      "idCliente: 1"
       "nome": "Ciclano",
       "placa": "WSA-8574",
       "dataEntrada": "2021-06-26",
-      "horaEntrada": "19:32:00",
-      "status": 0,
-      "idPreco": 1
+      "dataSaida: "2021-06-26""
+      "horaEntrada": "14:32:00",
+      "horaSaida": "17:15:00",
+      "status": 1,
+      "valorPago"
    }
 ```
 
