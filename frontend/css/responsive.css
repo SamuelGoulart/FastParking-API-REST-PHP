@@ -126,12 +126,12 @@
 
 @media (min-width: 1500px) {
     #painelCadastro {
-        background-image: url("../imgs/estacionamento1920x1080.jpg");
+        background-image: url("../img/estacionamento1920x1080.jpg");
     }
 }
 
 @media (min-width: 1700px) {
     #painelCadastro {
-        background-image: url("../imgs/estacionamento2168X1440.jpg");
+        background-image: url("../img/estacionamento2168X1440.jpg");
     }
 }

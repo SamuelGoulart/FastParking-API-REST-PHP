@@ -42,9 +42,6 @@ const openCustomersTable = () => {
     setTimeout(executeAnimateTableClient, 500)
 }
 
-const modalVouchers = () => document.querySelector('#modalEscolhaDeComprovante')
-    .classList.remove('active')
-
 const closeModalVoucherEntry = () => document.querySelector('#modalComprovanteEntrada')
     .classList.remove('active')
 
@@ -72,28 +69,10 @@ const closePayersReport = () => {
     removeAnimate()
 }
 
-const readDB = () => JSON.parse(localStorage.getItem('bank')) ?? []
-
-const setDB = (bank) => localStorage.setItem('bank', JSON.stringify(bank))
-
 const getContact = async (url) => {
     const response = await fetch(url)
     const json = await response.json()
     return json
-}
-
-const cancelVoucherEntry = () => {
-    const reasonToDelete = prompt(`Por qual motivo deseja deletar?`)
-    const resp = confirm(`Confirma que o motivo da exclusão é ${reasonToDelete}`)
-
-    if (resp) {
-        const db = readDB()
-        db.pop();
-        setDB(db)
-    }
-
-    document.querySelector('#modalComprovanteEntrada').classList.remove('active')
-    updateTable()
 }
 
 const insertDB = async (clientData) => {
@@ -143,12 +122,12 @@ const createRegistration = (clientData) => {
     <td>${clientData.dataEntrada.split('-').reverse().join('.')}</td>
     <td>${clientData.horaEntrada}</td>
     <td>
-        <button type="button" id="btnComprovanteIndex" class="btnVerde" data-action="comprovante-${clientData.idCliente}" >Comprovantes</button>
+        <button type="button" class="btnVerde" data-action="comprovantes-${clientData.idCliente}" >Comprovantes</button>
         <button type="button" class="btnAmarelo" data-action="editar-${clientData.idCliente}">Editar</button>
         <button type="button" class="btnExcluir" data-action="deletar-${clientData.idCliente}">Excluir</button>
     </td>`
 
-    document.getElementById('tbody').appendChild(cadastro)
+    document.getElementById('tbodyRelatorio').appendChild(cadastro)
 }
 
 const clearTable = () => {
@@ -166,36 +145,9 @@ const updateTable = async () => {
     customersWhoDidNotPay.forEach(createRegistration)
 }
 
-const date = () => {
-    let date = new Date()
-    let morning = String(date.getDate()).padStart(2, '0')
-    let month = String(date.getMonth() + 1).padStart(2, '0')
-    let year = date.getFullYear()
-    let currentDate = year + '-' + month + '-' + morning
-    return currentDate
-}
-
-const hour = () => {
-    let today = new Date()
-    let hours = ('00' + today.getHours()).slice(-2)
-    let minutes = ('00' + today.getMinutes()).slice(-2)
-    let currentTime = (hours) + ":" + minutes
-    return currentTime
-}
-
 const clearInput = () => {
     document.querySelector('#nome').value = ''
     document.querySelector('#placaDoCarro').value = ''
-}
-
-const disableButton = () => {
-    document.querySelector('#cancelarComprovanteEntrada').classList.add('displayNome')
-    document.querySelector('#modalComprovanteEntrada').classList.add('btnDois')
-}
-
-const enableButton = () => {
-    document.querySelector('#cancelarComprovanteEntrada').classList.remove('displayNome')
-    document.querySelector('#modalComprovanteEntrada').classList.remove('btnDois')
 }
 
 const printProofOfEntry = async () => {
@@ -204,7 +156,6 @@ const printProofOfEntry = async () => {
     const url = "http://api.fastparking.com.br/clientes"
     const data = await getContact(url)
     const clientEqualId = data.filter(data => data.idCliente == index)
-    console.log(clientEqualId)
     proofOfEntry(clientEqualId)
 }
 
@@ -231,6 +182,7 @@ const saveClient = async () => {
 
         if (dataPrice.length == 0) {
             confirm("Deve ser informado os preços, antes de inserir o primeiro cliente")
+            document.querySelector('#salvarPreco').textContent = 'Salvar'
             openModalPrice()
 
         } else {
@@ -345,55 +297,49 @@ const editClient = async (index) => {
     openModalEditPrice()
 }
 
-const printOutProof = async () => {
+const showProof = async(index) =>{
 
     const url = "http://api.fastparking.com.br/clientes"
     const data = await getContact(url)
 
-
-    const urlPrice = "http://api.fastparking.com.br/precos"
-    const dataPrice = await getContact(urlPrice)
-
-    const index = document.querySelector('#btnPagamento').dataset.index
     const clientEqualId = data.filter(data => data.idCliente == index);
-
-    modalVouchers()
-
     clientEqualId.forEach(data => {
         document.querySelector('#nomeComprovante').value = data.nome
         document.querySelector('#placaComprovante').value = data.placa
-        document.querySelector('#dataComprovante').value =
+        document.querySelector('#dataComprovante').value = 
             data.dataEntrada.split('-').reverse().join('.')
         document.querySelector('#horaComprovante').value = data.horaEntrada
         document.querySelector('#dataComprovanteSaida').value =
-            date().split('-').reverse().join('.')
+            data.dataSaida.split('-').reverse().join('.')
+        document.querySelector('#horaComprovanteSaida').value = data.horaSaida
+        document.querySelector('#valorPagar').value = (data.valorPago).replace('.',',')
 
-        document.querySelector('#horaComprovanteSaida').value = hour()
     })
 
-    const time = document.querySelector('#horaComprovante').value
-    //Trasformar há hora e minutos da chegada em segundos
-    const hoursArrivel = parseInt(time.substr(0, 2)) * 3600
-    const minutesArrivel = parseInt(time.substr(3, 4)) * 60
-
-    //Trasformar a hora e minutos de saída em segundos
-    const departureHours = parseInt(hour().substr(0, 2)) * 3600
-    const outgoingMinutes = parseInt(hour().substr(3, 4)) * 60
-
-    // Segundos de saída menos segundos de entrada
-    const secondsOfArriveMinusSecondOfExit = ((departureHours + outgoingMinutes) - (hoursArrivel + minutesArrivel))
-
-    // Quantidade de horas que fica estacionado
-    const numberOfHoursThatAreParked = secondsOfArriveMinusSecondOfExit / 3600
-
-    dataPrice.forEach(data => {
-        if (numberOfHoursThatAreParked <= 1) {
-            document.querySelector('#valorPagar').value = (data.umaHora).replace('.', ',')
-        } else {
-            document.querySelector('#valorPagar').value = (data.demaisHoras * Math.trunc(numberOfHoursThatAreParked) + parseFloat(data.umaHora)).toString().replace('.', ',')
-        }
-    })
+    updateTable()
+    updateTableCustomersParagram()
+    closeChoiceVoucher()
+    clearTableCustomersWhoPaid()
     openModalProof()
+    amountChargedOnTheDay()
+}
+
+const exitClient = async () => {
+
+    const resp = confirm("Confirma que o cliente, vai realizar o pagamento agora?")
+    if (resp) {
+
+        const index = document.querySelector('#btnPagamento').dataset.index
+        const url = "http://api.fastparking.com.br/clientes"
+
+        const options = {
+            method: 'PUT',
+        }
+
+        await fetch(url + '/' + index, options)
+
+        showProof(index)
+    }
 }
 
 const modalVoucherChoice = (index) => {
@@ -409,54 +355,30 @@ const showModalPrice = async () => {
         document.querySelector('#umaHoraPreco').value = dataPrice.umaHora.replace('.', ',')
         document.querySelector('#precoAteUmaHora').value = dataPrice.demaisHoras.replace('.', ',')
     })
-}
+    console.log(dataPrice.length)
 
-const actionButttons = (event) => {
-    const element = event.target
-    if (element.type === 'button') {
-        const action = element.dataset.action.split('-')
-        if (action[0] === 'deletar') {
-            deleteClient(action[1])
-        } else if (action[0] == 'editar') {
-            editClient(action[1])
-        } else {
-            modalVoucherChoice(action[1])
-        }
+    if (dataPrice.length == 0) {
+        document.querySelector('#salvarPreco').textContent = 'Salvar'
+    }else{
+        document.querySelector('#salvarPreco').textContent = 'Atualizar'
     }
-}
-
-const changeStatus = async() => {
-    const resp = confirm("Confirma que o cliente, já realizou o pagamento?")
-    if (resp) {
-        const url = "http://api.fastparking.com.br/clientes"
-        const options = {
-            method: 'PUT',
-            body: JSON.stringify({
-                valorPago: (document.querySelector('#valorPagar').value).replace(',','.'),
-            })
-        }
-
-        const id = document.querySelector('#btnPagamento').dataset.index
-        await fetch(url + '/' + id, options)
-
-        closeModalProof()
-        updateTable()
-        clearTableCustomersWhoPaid()
-        updateTableCustomersParagram()
-    }
+ 
 }
 
 const registeringCustomersWhoPaid = (dados) => {
 
     const cadastro = document.createElement('tr')
     cadastro.innerHTML = `  
-    <td>${dados.name}</td>
-    <td>${dados.hescores}</td>
-    <td>${dados.date}</td>
-    <td>${dados.exitdate}</td>
-    <td>${dados.time}</td>
-    <td>${dados.departureTime}</td>
-    <td>${dados.amountToPay}</td>
+    <td>${dados.nome}</td>
+    <td>${dados.placa}</td>
+    <td>${dados.dataEntrada.split('-').reverse().join('.')}</td>
+    <td>${dados.dataSaida.split('-').reverse().join('.')}</td>
+    <td>${dados.horaEntrada}</td>
+    <td>${dados.horaSaida}</td>
+    <td>${dados.valorPago.replace('.',',')}</td>
+    <td>
+        <button type="button" class="btnVerde" data-action="comprovanteSaida-${dados.idCliente}">Comprovante</button>
+    </td>
     `
     document.getElementById('tbodyClienteQuePagaram').appendChild(cadastro)
 }
@@ -468,10 +390,73 @@ const clearTableCustomersWhoPaid = () => {
     }
 }
 
-const updateTableCustomersParagram = () => {
-    const bank = readDB()
-    const customersWhoHaveAlreadyPaid = bank.filter(bank => bank.status == "Pago");
+const date = () => {
+    let date = new Date()
+    let morning = String(date.getDate()).padStart(2, '0')
+    let month = String(date.getMonth() + 1).padStart(2, '0')
+    let year = date.getFullYear()
+    let currentDate = year + '-' + month + '-' + morning;
+    return currentDate
+}
+
+const updateTableCustomersParagram = async () => {
+    const url = "http://api.fastparking.com.br/clientes"
+    const client = await getContact(url)
+    const customersWhoHaveAlreadyPaid = client.filter(client => client.dataSaida === date() && client.status == 1
+    )
     customersWhoHaveAlreadyPaid.forEach(registeringCustomersWhoPaid)
+}
+
+const amountChargedOnTheDay = async () =>{
+    const url = "http://api.fastparking.com.br/clientes"
+    const data = await getContact(url)
+    const clientsWhoPaid = data.filter(data => data.status == 1);
+
+    let resultado = 0;   
+    for (let index = 0; index < clientsWhoPaid.length; index++) {
+        const soma = parseFloat(clientsWhoPaid[index].valorPago)
+        resultado += soma
+    }
+
+    document.querySelector('#valorTotalRecebido').textContent = `R$ ${resultado.toString().replace('.',',')}`
+}
+
+const exitVoucher = async (index) =>{
+
+    const urlClient = "http://api.fastparking.com.br/clientes"
+    const data = await getContact(urlClient)
+
+    const clientEqualId = data.filter(data => data.idCliente == index);
+
+    clientEqualId.forEach(data => {
+        document.querySelector('#nomeComprovante').value = data.nome
+        document.querySelector('#placaComprovante').value = data.placa
+        document.querySelector('#dataComprovante').value = 
+            data.dataEntrada.split('-').reverse().join('.')
+        document.querySelector('#horaComprovante').value = data.horaEntrada
+        document.querySelector('#dataComprovanteSaida').value =
+            data.dataSaida.split('-').reverse().join('.')
+        document.querySelector('#horaComprovanteSaida').value = data.horaSaida
+        document.querySelector('#valorPagar').value = (data.valorPago).replace('.',',')
+
+    })
+    openModalProof()
+}
+
+const actionButttons = (event) => {
+    const element = event.target
+    if (element.type === 'button') {
+        const action = element.dataset.action.split('-')
+        if (action[0] === 'deletar') {
+            deleteClient(action[1])
+        } else if (action[0] == 'editar') {
+            editClient(action[1])
+        } else if (action[0] == 'comprovanteSaida') {
+            exitVoucher(action[1])
+        } else {
+            modalVoucherChoice(action[1])
+        }
+    }
 }
 
 document.querySelector('#salvarPreco')
@@ -498,9 +483,6 @@ document.querySelector('#closeEditar')
 document.querySelector('#cancelar')
     .addEventListener('click', closeModalPrice)
 
-document.querySelector('#cancelarComprovanteEntrada')
-    .addEventListener('click', cancelVoucherEntry)
-
 document.querySelector('#cancelarEditarDados')
     .addEventListener('click', closeModalEditData)
 
@@ -508,6 +490,9 @@ document.querySelector('#cancelarComprovamte')
     .addEventListener('click', closeModalProof)
 
 document.querySelector('#tabelaClientes')
+    .addEventListener('click', actionButttons)
+
+document.querySelector('#tabelaClientesQuePagaram')
     .addEventListener('click', actionButttons)
 
 document.querySelector('#umaHoraPreco')
@@ -526,7 +511,7 @@ document.querySelector('#btnPreco')
     .addEventListener('click', () => { openModalPrice(); showModalPrice() })
 
 document.querySelector('#btnSalvar')
-    .addEventListener('click', () => { saveClient(); enableButton() })
+    .addEventListener('click', saveClient)
 
 document.querySelector('#btnAtualizarCliente')
     .addEventListener('click', updateClient)
@@ -535,7 +520,8 @@ document.querySelector('#btnComprovanteEntrada')
     .addEventListener('click', () => { printProofOfEntry(); disableButton() })
 
 document.querySelector('#btnPagamento')
-    .addEventListener('click', printOutProof)
+    .addEventListener('click', exitClient)
+
 
 document.querySelector('#btnImprimirComprovante')
     .addEventListener('click', () => { window.print() })
@@ -543,8 +529,6 @@ document.querySelector('#btnImprimirComprovante')
 document.querySelector('#btnImprimirComprovanteEntrada')
     .addEventListener('click', () => { window.print() })
 
-document.querySelector('#btnPago')
-    .addEventListener('click', changeStatus)
 
 document.querySelector('#abaRelatorioPagamento')
     .addEventListener('click', () => { openPaymentReportTab(); closeTabCustomersTable(); })
@@ -554,3 +538,4 @@ document.querySelector('#abaTabelaClientes')
 
 updateTable()
 updateTableCustomersParagram()
+amountChargedOnTheDay()

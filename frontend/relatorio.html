@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../img/icone_car.svg">
+    <link rel="stylesheet" href="./css/relatorio.css">
+    <title>Relatórios</title>
+</head>
+
+<body>
+    <main>
+        <h1>Sistema FastParking</h1>
+        <section>
+            <a href="./index.html" id="linkIndex" >
+              <img src="./img/icone_voltar.svg" alt="Icone voltar para página principal" ></a>
+            <h1>Relatório por data</h1>
+            <div id="divPesquisaIntervalo">
+                <div>
+                    <form>
+                        <div>
+                            <h1>Pesquisa entre intervalo de datas </h1>
+                        </div>
+                        <div class="datasPesquisas">
+                            <label for="">Data inicio</label>
+                            <input type="date" class="input_data">
+                        </div>
+                        <div class="datasPesquisas">
+                            <label for="">Data final</label>
+                            <input type="date" class="input_data">
+                        </div>
+                        <button class="btnAzul">Limpar</button>
+                        <button class="btnVerde">Pesquisar</button>
+                    </form>
+                </div>
+                <div>
+                    <div>
+                        <h1>Pesquisa por data específica</h1>
+                    </div>
+                    <div class="datasPesquisas">
+                        <label for="">Data inicio</label>
+                        <input type="date" class="input_data">
+                    </div>
+                    <button class="btnAzul">Limpar</button>
+                    <button class="btnVerde">Pesquisar</button>
+                </div>
+
+            </div>
+            <table class="table" id="tabelaClientesQuePagaram">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Placa</th>
+                        <th>Data chegada</th>
+                        <th>Data saída</th>
+                        <th>Hora entrada</th>
+                        <th>Hora saída</th>
+                        <th>Valor pago</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyRelatorio">
+        
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <script src="./js/relatorio.js"></script>
+</body>
+
+</html>

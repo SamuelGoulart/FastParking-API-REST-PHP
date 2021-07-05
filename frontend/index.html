@@ -7,9 +7,9 @@
     <title>Sistema FastParking</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Rosario:wght@300&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="./resources/imgs/icone_car.svg">
-    <link rel="stylesheet" href="./resources/css/style.css">
-    <link rel="stylesheet" href="./resources/css/responsive.css">
+    <link rel="shortcut icon" href="../img/icone_car.svg">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/responsive.css">
 </head>
 
 <body>
@@ -20,11 +20,11 @@
             <div>
                 <form class="formCadastro">
                     <label for="nome">Nome</label>
-                    <input maxlength="17" id="nome" data-index="" type="text" placeholder="Ex .: José da silva"
-                        required autocomplete="off" />
+                    <input maxlength="17" id="nome" data-index="" type="text" placeholder="Ex .: José da silva" required
+                        autocomplete="off" />
                     <label for="placaDoCarro">Placa do carro</label>
                     <input id="placaDoCarro" pattern="\D{3}-?\d{4}" maxlength="8" placeholder="Ex .: CHE-5729"
-                        type="text" required autocomplete="off"/>
+                        type="text" required autocomplete="off" />
                 </form>
                 <footer>
                     <button id="btnSalvar" class="btnVerde">Salvar</button>
@@ -33,8 +33,8 @@
             </div>
         </section>
         <div class="scroll-more">
-            <span> <a href="#tbody">Scroll Down</a> </span>
-            <a href="#tbody">
+            <span> <a href="#abaTabelaClientes">Scroll Down</a> </span>
+            <a href="#abaTabelaClientes">
                 <i class="scroll-arrow">
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="416" height="448"
                         viewBox="0 0 416 448">
@@ -76,7 +76,6 @@
             </form>
 
             <footer class="modal-footer btnTres">
-                <button type="button" class="btnExcluir" id="cancelarComprovanteEntrada">Apagar registro</button>
                 <button type="submit" class="btnVerde" id="btnImprimirComprovanteEntrada">Imprimir</button>
                 <button type="submit" class="btnAmarelo" id="fecharModal">Fechar</button>
 
@@ -85,10 +84,15 @@
     </div>
 
     <main>
-        <ul id="nav">
-            <li><a href="#tbody" id="abaTabelaClientes" class="ativoAba">Controle de Estacionamento</a></li>
-            <li><a href="#tbodyClienteQuePagaram" id="abaRelatorioPagamento">Relatório de pagamento</a></li>
-        </ul>
+        <nav>
+            <ul id="nav">
+                <li><a href="#abaTabelaClientes" id="abaTabelaClientes" class="ativoAba">Controle de Estacionamento</a></li>
+                <li><a href="#abaRelatorioPagamento" id="abaRelatorioPagamento">Relatório de pagamento do dia</a></li>
+                <li><a href="./relatorio.html" id="abaRelatoriosDetalhados">Relatório por data
+                    </a></li>
+            </ul>
+        </nav>
+
         <section id="tabelaClientesQueNaoPagaram" class="animate" data-anime="left">
             <h1>Controle de Estacionamento</h1>
             <table class="table" id="tabelaClientes">
@@ -107,8 +111,13 @@
             </table>
         </section>
         <section id="relatorioPagamento" class="displayNome" data-anime="left">
-            <h1>Relatório de pagamento</h1>
-            <table class="table" id="tabelaClientes">
+            <div>
+                <h1>Relatório de pagamento do dia</h1>
+                <div>
+                    <h1>Valor total recebido = <span id="valorTotalRecebido" ></span> </h1>
+                </div>
+            </div>
+            <table class="table" id="tabelaClientesQuePagaram">
                 <thead>
                     <tr>
                         <th>Nome</th>
@@ -118,6 +127,7 @@
                         <th>Hora entrada</th>
                         <th>Hora saída</th>
                         <th>Valor pago</th>
+                        <th>Comprovante</th>
                     </tr>
                 </thead>
                 <tbody id="tbodyClienteQuePagaram">
@@ -140,13 +150,13 @@
                     <label class="label  margin-top-input" for="umaHoraPreco">Até 1 hora estacionado</label>
                 </div>
                 <div class="input-container">
-                    <input class="input" type="text" id="precoAteUmaHora" required  autocomplete="off"/>
+                    <input class="input" type="text" id="precoAteUmaHora" required autocomplete="off" />
                     <label class="label inputSengundoAdiante" for="precoAteUmaHora">Após 1 Hora</label>
                 </div>
                 <br><br><br>
             </form>
             <footer class="modal-footer btnDois">
-                <button type="submit" class="btnVerde btnAumentaWidth" id="salvarPreco">Salvar</button>
+                <button type="submit" class="btnVerde btnAumentaWidth" id="salvarPreco"></button>
                 <button type="button" class="btnAmarelo btnAumentaWidth" id="cancelar">Cancelar</button>
             </footer>
         </div>
@@ -162,12 +172,13 @@
 
             <form class="formInputMaterializado">
                 <div class="input-container">
-                    <input id="nomeEditar" data-index="" class="input" type="text" required  autocomplete="off"/>
+                    <input id="nomeEditar" data-index="" class="input" type="text" required autocomplete="off" />
                     <label class="label margin-top-input" for="nomeEditar">Nome</label>
                 </div>
                 <div class="input-container">
-                    <input id="placaEditar" class="input" pattern="\D{3}-?\d{4}" maxlength="8" type="text" required autocomplete="off" />
-                    <label class="label inputSengundoAdiante" for="placaEditar" >Placa do carro</label>
+                    <input id="placaEditar" class="input" pattern="\D{3}-?\d{4}" maxlength="8" type="text" required
+                        autocomplete="off" />
+                    <label class="label inputSengundoAdiante" for="placaEditar">Placa do carro</label>
                 </div>
                 <div class="input-container">
                     <input id="dataEditar" class="input disabledInput" type="text" required />
@@ -245,15 +256,14 @@
             </form>
 
             <footer class="modal-footer btnTres">
-                <button type="submit" class="btnVerde" id="btnPago">Pago</button>
                 <button type="submit" class="btnVerde" id="btnImprimirComprovante">Imprimir</button>
-                <button type="button" class="btnAmarelo" id="cancelarComprovamte">Cancelar</button>
+                <button type="button" class="btnAmarelo" id="cancelarComprovamte">Fechar</button>
             </footer>
         </div>
     </div>
 
 
-    <script src="./resources/js/main.js"></script>
+    <script src="./js/main.js"></script>
 </body>
 
 </html>
