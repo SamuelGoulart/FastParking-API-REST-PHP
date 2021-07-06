@@ -9,7 +9,7 @@ class Relatorio
 
     public function intervaloDeDatas()
     {
-        $sql = " SELECT * FROM tblClientes WHERE dataSaida = '2021-07-05' ";
+        $sql = " SELECT * FROM tblClientes WHERE dataSaida = '2021-07-06' ";
         $stmt = Model::getConn()->prepare($sql);
         // $stmt->bindValue(1, $this->dataInicio);
         // $stmt->bindValue(2, $this->dataFinal);

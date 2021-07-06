@@ -1,0 +1,13 @@
+#titulo_btnVoltar {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    justify-items: start;
+}
+
+#titulo_btnVoltar h1{
+    margin-left: 6rem;
+    font-size: 1.8rem;
+}
+
+
+

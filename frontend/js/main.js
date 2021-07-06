@@ -127,7 +127,7 @@ const createRegistration = (clientData) => {
         <button type="button" class="btnExcluir" data-action="deletar-${clientData.idCliente}">Excluir</button>
     </td>`
 
-    document.getElementById('tbodyRelatorio').appendChild(cadastro)
+    document.getElementById('tbody').appendChild(cadastro)
 }
 
 const clearTable = () => {
@@ -269,11 +269,14 @@ const deleteClient = async (index) => {
     const clientEqualId = data.filter(data => data.idCliente == index)
 
     const reasonToDelete = prompt(`Por qual motivo deseja deletar ${clientEqualId[0].nome}?`)
-    const resp = reasonToDelete.length < 3 ? alert("Informe um motivo!") : confirm(`Confirma que o motivo da exclusão é ${reasonToDelete}`)
+    const resp = reasonToDelete == '' ? alert("Informe um motivo!") : confirm(`Confirma que o motivo da exclusão é ${reasonToDelete}`)
 
     if (resp) {
         const options = {
-            method: 'DELETE',
+            method: 'PUT',
+            body: JSON.stringify({
+                'motivoExclusao': reasonToDelete 
+            })
         }
         await fetch(url + '/' + index, options)
         updateTable()
@@ -302,6 +305,7 @@ const showProof = async(index) =>{
     const url = "http://api.fastparking.com.br/clientes"
     const data = await getContact(url)
 
+    console.log(index)
     const clientEqualId = data.filter(data => data.idCliente == index);
     clientEqualId.forEach(data => {
         document.querySelector('#nomeComprovante').value = data.nome
@@ -395,22 +399,23 @@ const date = () => {
     let morning = String(date.getDate()).padStart(2, '0')
     let month = String(date.getMonth() + 1).padStart(2, '0')
     let year = date.getFullYear()
-    let currentDate = year + '-' + month + '-' + morning;
+    let currentDate = year + '-' + month + '-' + morning
+    document.querySelector('#relatorioDoDia').innerHTML = `Relatório de pagamento do dia: ${morning}.${month}.${year}`
     return currentDate
 }
 
 const updateTableCustomersParagram = async () => {
     const url = "http://api.fastparking.com.br/clientes"
-    const client = await getContact(url)
-    const customersWhoHaveAlreadyPaid = client.filter(client => client.dataSaida === date() && client.status == 1
-    )
+    const data = await getContact(url)
+    const customersWhoHaveAlreadyPaid = data.filter(data => data.dataSaida === date() && data.status == 1)
     customersWhoHaveAlreadyPaid.forEach(registeringCustomersWhoPaid)
+    console.log(customersWhoHaveAlreadyPaid)
 }
 
 const amountChargedOnTheDay = async () =>{
     const url = "http://api.fastparking.com.br/clientes"
     const data = await getContact(url)
-    const clientsWhoPaid = data.filter(data => data.status == 1);
+    const clientsWhoPaid = data.filter(data => data.status == 1 && data.dataSaida == date());
 
     let resultado = 0;   
     for (let index = 0; index < clientsWhoPaid.length; index++) {

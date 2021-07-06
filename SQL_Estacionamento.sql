@@ -21,18 +21,15 @@ create table tblClientes(
    dataSaida date,
    horaEntrada time not null,
    horaSaida time,
-   status tinyint not null,
+   motivoExclusao varchar(255),
+   status tinyint,
    valorPago decimal(10,2),
 
    unique key(idCliente),
    primary key(idCliente)
 );
 
-
-
-
-
-
+UPDATE tblClientes SET motivoExclusao = 'Meu amigo', status = ''  where idCliente = 1;
 
 
 UPDATE tblClientes SET dataSaida = '2021-06-30', horaSaida = '17:54', status = 1, valorPago = 25.50 WHERE idCliente = 2;

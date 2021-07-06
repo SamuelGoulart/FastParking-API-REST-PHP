@@ -86,9 +86,13 @@
     <main>
         <nav>
             <ul id="nav">
-                <li><a href="#abaTabelaClientes" id="abaTabelaClientes" class="ativoAba">Controle de Estacionamento</a></li>
-                <li><a href="#abaRelatorioPagamento" id="abaRelatorioPagamento">Relatório de pagamento do dia</a></li>
-                <li><a href="./relatorio.html" id="abaRelatoriosDetalhados">Relatório por data
+                <li><a href="#abaTabelaClientes" id="abaTabelaClientes" class="ativoAba navHover">Controle de
+                        Estacionamento</a></li>
+                <li><a href="#abaRelatorioPagamento" class="navHover" id="abaRelatorioPagamento">Relatório de pagamento
+                        do dia</a></li>
+                <li><a href="./relatorio.html" class="navHover" id="abaRelatoriosDetalhados">Relatório por data
+                    </a></li>
+                <li><a href="./clientesExcluidos.html" class="navHover" id="abaClientesExcluidos">Clientes Excluidos
                     </a></li>
             </ul>
         </nav>
@@ -112,9 +116,9 @@
         </section>
         <section id="relatorioPagamento" class="displayNome" data-anime="left">
             <div>
-                <h1>Relatório de pagamento do dia</h1>
+                <h1 id="relatorioDoDia"></h1>
                 <div>
-                    <h1>Valor total recebido = <span id="valorTotalRecebido" ></span> </h1>
+                    <h1 id="h1ValorRecebido" >Valor total recebido = <span id="valorTotalRecebido"></span> </h1>
                 </div>
             </div>
             <table class="table" id="tabelaClientesQuePagaram">
@@ -181,12 +185,12 @@
                     <label class="label inputSengundoAdiante" for="placaEditar">Placa do carro</label>
                 </div>
                 <div class="input-container">
-                    <input id="dataEditar" class="input disabledInput" type="text" required />
-                    <label class="label inputSengundoAdiante disabledInput" for="dataEditar">Data</label>
+                    <input id="dataEditar" class="input disabledInput" type="text" r disabled=""  />
+                    <label class="label inputSengundoAdiante" for="dataEditar">Data</label>
                 </div>
                 <div class="input-container">
-                    <input id="horaEditar" class="input disabledInput" type="text" required />
-                    <label class="label inputSengundoAdiante disabledInput" for="horaEditar">Hora</label>
+                    <input id="horaEditar" class="input disabledInput" type="text" disabled="" />
+                    <label class="label inputSengundoAdiante" for="horaEditar">Hora</label>
                 </div>
             </form>
 

@@ -64,77 +64,6 @@ td {
     padding: 0px 15px 0px 15px;
 }
 
-#nav {
-    list-style: none;
-    background-color: #26a69a;
-    border-radius: 25px;
-    width: 750px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    height: 50px;
-    margin: auto;
-}
-
-#abaRelatoriosDetalhados{
-    width: 250px;
-    height: 50px;
-    list-style: none;
-    margin-left: 14px;
-    border: 1px solid white;
-    border-radius: 25px;
-    color: white;
-    cursor: pointer;
-    background-color: #26a69a;
-}
-
-#abaRelatoriosDetalhados:hover,
-#abaRelatorioPagamento:hover,
-#abaTabelaClientes:hover{
-    color: black !important;
-    background-color: white;
-    border-radius: 25px;
-}
-
-#nav li{
-    padding-top: 15px;
-}
-
-#abaTabelaClientes,
-#abaRelatorioPagamento{
-    margin-left: 14px;
-    padding: 5px 10px 5px 10px;
-    color: black;
-    text-decoration:none; 
-    color: white;
-    border: 1px solid white;
-    border-radius: 25px;
-    cursor: pointer;
-}
-
-#abaRelatoriosDetalhados{
-    text-decoration: none;
-    padding: 5px 25px 5px 25px;
-    margin-left: 25px;
-}
-
-.desativadoAba{
-    color: black;
-    background-color: white;
-    border-radius: 25px;
-}
-
-.ativoAba{
-    color: black !important;
-    background-color: white;
-    border-radius: 25px;
-} 
-
-#relatorioPagamento > div{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 16rem;
-}
-
 #painelCadastro {
     height: 86vh;
     background-image: url("../img/estacionamento1366X766.jpg");
@@ -233,6 +162,7 @@ td {
         margin-top: 20px;
     }
 }
+
 /* Modal */
 
 .modal {
@@ -348,7 +278,6 @@ thead th {
 
 }
 
-
 .table {
     width: 1100px;
     user-select: none;
@@ -415,7 +344,7 @@ thead th {
 .input:valid+.label, .input:focus+.label {
     color: #26a69a;
     font-size: .8rem;
-    top: -30px;
+    top: -15px;
 }
 
 .margin-top-input {
@@ -424,6 +353,86 @@ thead th {
 
 .disabledInput {
     pointer-events: none;
+    margin-top: 65px !important;
+}
+
+
+#nav {
+    list-style: none;
+    background-color: #26a69a;
+    border-radius: 25px;
+    width: 965px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    height: 50px;
+    margin: auto;
+}
+
+#abaRelatoriosDetalhados{
+    width: 250px;
+    height: 50px;
+    list-style: none;
+    border: 1px solid white;
+    border-radius: 25px;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 5px 40px 5px 40px;
+    margin-left: 37px;
+}
+
+#abaClientesExcluidos{
+    width: 250px;
+    list-style: none;
+    text-decoration: none;
+    padding: 5px 35px 5px 35px;
+    border: 1px solid white;
+    border-radius: 25px;
+    color: white;
+    margin-left: 35px;
+}
+
+.navHover:hover{
+    color: black !important;
+    background-color: white;
+    border-radius: 25px;
+}
+
+#nav li{
+    padding-top: 15px;
+}
+
+#abaTabelaClientes,
+#abaRelatorioPagamento{
+    margin-left: 14px;
+    padding: 5px 10px 5px 10px;
+    color: black;
+    text-decoration:none; 
+    color: white;
+    border: 1px solid white;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.desativadoAba{
+    color: black;
+    background-color: white;
+    border-radius: 25px;
+}
+
+.ativoAba{
+    color: black !important;
+    background-color: white;
+    border-radius: 25px;
+} 
+
+#h1ValorRecebido{
+    margin-left: 1rem;
+}
+
+#relatorioPagamento > div{
+    display: grid;
+    grid-template-columns: 3fr 2fr;
 }
 
 #btnComprovanteEntrada {

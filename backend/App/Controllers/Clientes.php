@@ -3,35 +3,18 @@ session_start();
 
 use App\Core\Controller;
 
-class Clientes extends Controller
-{
+class Clientes extends Controller {
 
-    public function index()
-    {
+    public function index() {
+
         $clienteModel = $this->model("Cliente");
         $dados = $clienteModel->listarTodos();
 
         echo json_encode($dados, JSON_UNESCAPED_UNICODE);
     }
 
-    public function find($id)
-    {
-        $clienteModel = $this->model("Cliente");
-        $clienteModel = $clienteModel->buscarPorId($id);
+    public function store() {
 
-        if ($clienteModel) {
-
-        } else {
-            http_response_code(404);
-
-            $erro = ["erro" => "Cliente não encontrado"];
-
-            echo json_encode($erro, JSON_UNESCAPED_UNICODE);
-        }
-    }
-
-    public function store()
-    {
         $json = file_get_contents("php://input");
 
         $novoCliente = json_decode($json);
@@ -50,28 +33,7 @@ class Clientes extends Controller
         }
     }
 
-    public function delete($id)
-    {
-        $clienteModel = $this->model("Cliente");
-
-        $clienteModel = $clienteModel->buscarPorId($id);
-
-        if (!$clienteModel) {
-            http_response_code(404);
-            echo json_encode(["erro" => "Cliente não encontrado"]);
-            exit;
-        }
-
-        if ($clienteModel->deletar()) {
-            http_response_code(204);
-        } else {
-            http_response_code(500);
-            echo json_encode(["erro" => "Problemas ao excluir esse cliente"]);
-        }
-    }
-
-    public function calculaPreco($id)
-    {
+    public function calculaPreco($id) {
 
         $clienteSaida = $this->model("Cliente");
         $dados = $clienteSaida->getDadosValorApagar($id);
@@ -85,14 +47,12 @@ class Clientes extends Controller
         $precoUmaHora = $dadosPreco[0]->umaHora;
         $precoDemaisHoras = $dadosPreco[0]->demaisHoras;
 
-        if ($totalDias == 0) {
-            if (strtotime($totalHoras)  <= strtotime("1:00:00")) {
-                $valorPagar = $precoUmaHora;
-            } else {
-                $valorPagar = $precoDemaisHoras * (idate('H', strtotime($totalHoras))) + $precoUmaHora;
-            }
+        if ($totalDias < 0) {
+            $valorPagar = ($precoDemaisHoras * (idate('H', strtotime($totalHoras))) + $precoUmaHora);
+        }else{
+            $valorPagar = ($precoDemaisHoras * $totalDias * 24) + $precoUmaHora;
         }
-
+       
         return $valorPagar;
     }
 
@@ -110,10 +70,10 @@ class Clientes extends Controller
             exit;
         }
 
-
         $clienteModel->id = $id;
         $clienteModel->nome = $clienteEditar->nome;
         $clienteModel->placa = $clienteEditar->placa;
+        $clienteModel->motivoExclusao = $clienteEditar->motivoExclusao;
         $clienteModel->valorPago = $this->calculaPreco($id);
 
 
