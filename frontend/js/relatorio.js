@@ -24,7 +24,7 @@ const createRegistration = (requestedDate) => {
 }
 
 const updateTable = async () => {
-    const url = "http://api.fastparking.com.br/relatorios"
+    const url = "http://local.fastparking.com.br/relatorios"
     const filterData = await getContact(url)
     const requestedDate = filterData.filter(filterData => filterData.status == 1);
     requestedDate.forEach(createRegistration)

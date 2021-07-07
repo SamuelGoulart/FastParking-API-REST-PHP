@@ -2,7 +2,8 @@
 
 use App\Core\Model;
 
-class Cliente {
+class Cliente
+{
 
     public $id;
     public $nome;
@@ -15,7 +16,8 @@ class Cliente {
     public $motivoExclusao;
     public $valorPago;
 
-    public function listarTodos() {
+    public function listarTodos()
+    {
 
         $sql = " SELECT * FROM tblClientes ";
 
@@ -30,7 +32,8 @@ class Cliente {
         }
     }
 
-    public function inserir() {
+    public function inserir()
+    {
 
         $sql = " INSERT INTO tblClientes 
                 (nome, placa, dataEntrada, horaEntrada, status) 
@@ -49,7 +52,8 @@ class Cliente {
         }
     }
 
-    public function deletar() {
+    public function deletar()
+    {
 
         $sql = " DELETE FROM tblClientes WHERE idCliente = ? ";
         $stmt = Model::getConn()->prepare($sql);
@@ -57,7 +61,8 @@ class Cliente {
         return $stmt->execute();
     }
 
-    public function getDadosValorApagar($id) {
+    public function getDadosValorApagar($id)
+    {
 
         $sql = " SELECT datediff(dataEntrada, curdate())*-1 as totalDiasEstacionado, timediff(curtime(), horaEntrada) as totalHorasEstacionado from tblClientes WHERE idCliente = ? ";
 
@@ -73,7 +78,9 @@ class Cliente {
         }
     }
 
-    public function atualizar() {
+
+    public function atualizar()
+    {
 
         if (!empty($this->nome)) {
             $sql = " UPDATE tblClientes SET 
@@ -82,21 +89,18 @@ class Cliente {
             $stmt->bindValue(1, $this->nome);
             $stmt->bindValue(2, $this->placa);
             $stmt->bindValue(3, $this->id);
-
-        } else if (!empty($this->motivoExclusao)){
+        } else if (!empty($this->motivoExclusao)) {
 
             $sql = " UPDATE tblClientes SET dataSaida = current_date(), horaSaida = curtime(), motivoExclusao = ?, status = 10 where idCliente = ? ";
             $stmt = Model::getConn()->prepare($sql);
             $stmt->bindValue(1, $this->motivoExclusao);
             $stmt->bindValue(2, $this->id);
-
-        } else{
+        } else {
 
             $sql = " UPDATE tblClientes SET dataSaida = current_date(), horaSaida = curtime(), status = 1, valorPago = ? WHERE idCliente = ? ";
             $stmt = Model::getConn()->prepare($sql);
             $stmt->bindValue(1, $this->valorPago);
             $stmt->bindValue(2, $this->id);
-
         }
 
         return $stmt->execute();

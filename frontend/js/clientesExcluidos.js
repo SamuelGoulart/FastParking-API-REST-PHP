@@ -24,7 +24,7 @@ const createRegistration = (clientDeleted) => {
 }
 
 const updateTable = async () => {
-    const url = "http://api.fastparking.com.br/clientes"
+    const url = "http://local.fastparking.com.br/clientes"
     const filterClientDeleted = await getContact(url)
     console.log(filterClientDeleted)
     const requestedDate = filterClientDeleted.filter(filterClientDeleted => filterClientDeleted.status == 10);

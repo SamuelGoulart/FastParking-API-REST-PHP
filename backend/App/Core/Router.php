@@ -33,7 +33,9 @@ class Router
         } elseif (empty($url[1])) {
             $this->controller = "clientes";
         } else {
-            $this->controller = "erro404";
+            http_response_code(404);
+            echo json_encode(["erro" => "Recurso não suportado"]);
+            exit;
         }
 
         require_once "../App/Controllers/" . $this->controller . ".php";
@@ -93,6 +95,7 @@ class Router
     //retorna o controller, o método e os params da url em um vetor
     private function parseURL()
     {
-        return explode("/", $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"]);
+        $url = explode("?", $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"])[0];
+        return explode("/",$url);
     }
 }

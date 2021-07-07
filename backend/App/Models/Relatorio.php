@@ -5,14 +5,15 @@ use App\Core\Model;
 class Relatorio
 {
     public $dataInicio;
-    // public $dataFinal;
+    public $dataFinal;
 
     public function intervaloDeDatas()
     {
-        $sql = " SELECT * FROM tblClientes WHERE dataSaida = '2021-07-06' ";
+        $sql = " SELECT * FROM tblClientes WHERE dataSaida BETWEEN ? AND ? ";
+
         $stmt = Model::getConn()->prepare($sql);
-        // $stmt->bindValue(1, $this->dataInicio);
-        // $stmt->bindValue(2, $this->dataFinal);
+        $stmt->bindValue(1, $this->dataInicio);
+        $stmt->bindValue(2, $this->dataFinal);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -21,5 +22,6 @@ class Relatorio
         } else {
             return [];
         }
+
     }
 }
