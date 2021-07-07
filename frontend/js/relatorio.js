@@ -19,15 +19,48 @@ const createRegistration = (requestedDate) => {
         <td>${requestedDate.horaSaida}</td>
         <td>${requestedDate.valorPago.replace('.', ',')}</td>
     `
-
     document.getElementById('tbodyRelatorio').appendChild(cadastro)
 }
 
-const updateTable = async () => {
-    const url = "http://local.fastparking.com.br/relatorios"
-    const filterData = await getContact(url)
-    const requestedDate = filterData.filter(filterData => filterData.status == 1);
-    requestedDate.forEach(createRegistration)
+const clearInput = () => {
+    document.querySelector('#dataInicioIntervaloDatas').value = ''
+    document.querySelector('#dataFinalIntervaloDatas').value = ''
 }
 
-updateTable()
+const clearInputDateSpecific = () => {
+    document.querySelector('#dataEspecifica').value = ''
+
+}
+
+const searchDateRange = async () => {
+
+    const startDate = document.querySelector('#dataInicioIntervaloDatas').value.split('-').join('-')
+    const endDate = document.querySelector('#dataFinalIntervaloDatas').value.split('-').join('-')
+
+    const url = `http://api.fastparking.com.br/relatorios?dataInicio=${startDate}&dataFinal=${endDate}`
+
+    const requestedClient = await getContact(url)
+
+    const data = requestedClient.filter(requestedClient => requestedClient.status == 1)
+    data.forEach(createRegistration)
+    console.log(data)
+}
+
+const searchDate = async () =>{
+
+    const specificDate = document.querySelector('#dataEspecifica').value.split('-').join('-')
+    const url = `http://api.fastparking.com.br/relatorios?dataInicio=${specificDate}`
+    const requestedClient = await getContact(url)
+    // const date =  document.querySelector('#dataEspecifica').value
+    // const requestedClient = await getContact(url)
+
+    console.log(requestedClient)
+}
+
+document.querySelector('#pesquisarDataEspecifica').addEventListener('click', searchDate)
+document.querySelector('#pesquisar').addEventListener('click', searchDateRange)
+document.querySelector('#limpar').addEventListener('click', clearInput)
+document.querySelector('#limparDataEspecifica').addEventListener('click', clearInputDateSpecific
+)
+
+

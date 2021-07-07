@@ -12,7 +12,7 @@ class Model {
 
         //se a conexão não estiver aberta, criamos
         if(!isset(self::$conexao)){
-            self::$conexao = new \PDO("mysql:host=localhost;port=3306;dbname=dbEstacionamento;", "root", "bcd127");
+            self::$conexao = new \PDO("mysql:host=localhost;port=3306;dbname=dbEstacionamento;", "root", "abc45101922072");
         }
 
         //retornamos a conexão

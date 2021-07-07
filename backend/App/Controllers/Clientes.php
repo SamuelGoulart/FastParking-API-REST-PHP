@@ -33,29 +33,6 @@ class Clientes extends Controller {
         }
     }
 
-    public function calculaPreco($id) {
-
-        $clienteSaida = $this->model("Cliente");
-        $dados = $clienteSaida->getDadosValorApagar($id);
-
-        $precoModel = $this->model("Preco");
-        $dadosPreco = $precoModel->listarTodos();
-
-        $totalDias = $dados[0]->totalDiasEstacionado;
-        $totalHoras = $dados[0]->totalHorasEstacionado;
-
-        $precoUmaHora = $dadosPreco[0]->umaHora;
-        $precoDemaisHoras = $dadosPreco[0]->demaisHoras;
-
-        if ($totalDias < 0) {
-            $valorPagar = ($precoDemaisHoras * (idate('H', strtotime($totalHoras))) + $precoUmaHora);
-        }else{
-            $valorPagar = ($precoDemaisHoras * $totalDias * 24) + $precoUmaHora;
-        }
-       
-        return $valorPagar;
-    }
-
     public function update($id)
     {
         $json = file_get_contents("php://input");
@@ -74,7 +51,6 @@ class Clientes extends Controller {
         $clienteModel->nome = $clienteEditar->nome;
         $clienteModel->placa = $clienteEditar->placa;
         $clienteModel->motivoExclusao = $clienteEditar->motivoExclusao;
-        $clienteModel->valorPago = $this->calculaPreco($id);
 
 
         if ($clienteModel->atualizar()) {

@@ -5,6 +5,10 @@
     font-family: Calibri, sans-serif;
 }
 
+html{
+    scroll-behavior: smooth;
+}
+
 body {
     background-color: #c8c8c8;
     height: 1000px;
@@ -101,11 +105,12 @@ thead th {
 
 .btnVerde {
     background-color: #91CB82;
+    text-decoration: none;
 }
 
 .btnVerde:hover {
     background-color: white;
-    color: black;
+    color: black !important;
     border: #91CB82 3px solid;
 }
 
@@ -119,6 +124,12 @@ thead th {
     color: black;
     cursor: pointer;
     border: #26a69a 3px solid;
+}
+
+
+
+#pesquisar a:hover{
+    color: black;
 }
 
 .table {

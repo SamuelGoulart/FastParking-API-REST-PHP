@@ -76,7 +76,7 @@ const getContact = async (url) => {
 }
 
 const insertDB = async (clientData) => {
-    const url = "http://local.fastparking.com.br/clientes"
+    const url = "http://api.fastparking.com.br/clientes"
     const options = {
         method: 'POST',
         body: JSON.stringify(clientData)
@@ -85,7 +85,7 @@ const insertDB = async (clientData) => {
 }
 
 const insertPrice = async (registerPrices) => {
-    const url = "http://local.fastparking.com.br/precos"
+    const url = "http://api.fastparking.com.br/precos"
     const options = {
         method: 'POST',
         body: JSON.stringify(registerPrices)
@@ -93,23 +93,28 @@ const insertPrice = async (registerPrices) => {
     await fetch(url, options)
 }
 
+const isValidFormUpdateClient = () => document.querySelector('.formEditarCadastro').reportValidity()
+
 const updateClient = async () => {
 
-    const url = "http://local.fastparking.com.br/clientes"
+    if (isValidFormUpdateClient()) {
 
-    const options = {
-        method: 'PUT',
-        body: JSON.stringify({
-            nome: document.querySelector('#nomeEditar').value,
-            placa: document.querySelector('#placaEditar').value
-        })
+        const url = "http://api.fastparking.com.br/clientes"
+
+        const options = {
+            method: 'PUT',
+            body: JSON.stringify({
+                nome: document.querySelector('#nomeEditar').value,
+                placa: document.querySelector('#placaEditar').value
+            })
+        }
+
+        const id = document.querySelector('#nomeEditar').dataset.index
+        await fetch(url + '/' + id, options)
+
+        closeModalEditData()
+        updateTable()
     }
-
-    const id = document.querySelector('#nomeEditar').dataset.index
-    await fetch(url + '/' + id, options)
-
-    closeModalEditData()
-    updateTable()
 }
 
 const createRegistration = (clientData) => {
@@ -139,7 +144,7 @@ const clearTable = () => {
 
 const updateTable = async () => {
     clearTable()
-    const url = "http://local.fastparking.com.br/clientes"
+    const url = "http://api.fastparking.com.br/clientes"
     const clientes = await getContact(url)
     const customersWhoDidNotPay = clientes.filter(clientes => clientes.status == 0);
     customersWhoDidNotPay.forEach(createRegistration)
@@ -153,7 +158,7 @@ const clearInput = () => {
 const printProofOfEntry = async () => {
     closeChoiceVoucher()
     const index = document.querySelector('#btnPagamento').dataset.index
-    const url = "http://local.fastparking.com.br/clientes"
+    const url = "http://api.fastparking.com.br/clientes"
     const data = await getContact(url)
     const clientEqualId = data.filter(data => data.idCliente == index)
     proofOfEntry(clientEqualId)
@@ -177,7 +182,7 @@ const saveClient = async () => {
 
     if (isValidForm()) {
 
-        const urlPrice = "http://local.fastparking.com.br/precos"
+        const urlPrice = "http://api.fastparking.com.br/precos"
         const dataPrice = await getContact(urlPrice)
 
         if (dataPrice.length == 0) {
@@ -195,7 +200,7 @@ const saveClient = async () => {
 
             updateTable()
 
-            const url = "http://local.fastparking.com.br/clientes"
+            const url = "http://api.fastparking.com.br/clientes"
             const data = await getContact(url)
 
             const getTheLastRegisteredCustomerId = data.length
@@ -209,7 +214,7 @@ const saveClient = async () => {
 }
 
 const updatePrice = async () => {
-    const url = "http://local.fastparking.com.br/precos"
+    const url = "http://api.fastparking.com.br/precos"
     const options = {
         method: 'PUT',
         body: JSON.stringify({
@@ -231,7 +236,7 @@ const savePrice = async () => {
             'demaisHoras': (document.querySelector('#precoAteUmaHora').value).replace(',', '.')
         }
 
-        const url = "http://local.fastparking.com.br/precos"
+        const url = "http://api.fastparking.com.br/precos"
         const dataPrice = await getContact(url)
 
         dataPrice.length == 0 ? insertPrice(price) : updatePrice(price)
@@ -263,7 +268,7 @@ const applyMaskCar = (event) => {
 
 const deleteClient = async (index) => {
 
-    const url = "http://local.fastparking.com.br/clientes"
+    const url = "http://api.fastparking.com.br/clientes"
     const data = await getContact(url)
 
     const clientEqualId = data.filter(data => data.idCliente == index)
@@ -275,7 +280,7 @@ const deleteClient = async (index) => {
         const options = {
             method: 'PUT',
             body: JSON.stringify({
-                'motivoExclusao': reasonToDelete 
+                'motivoExclusao': reasonToDelete
             })
         }
         await fetch(url + '/' + index, options)
@@ -284,7 +289,7 @@ const deleteClient = async (index) => {
 }
 
 const editClient = async (index) => {
-    const url = "http://local.fastparking.com.br/clientes"
+    const url = "http://api.fastparking.com.br/clientes"
     const data = await getContact(url)
     const clientEqualId = data.filter(data => data.idCliente == index)
 
@@ -300,9 +305,9 @@ const editClient = async (index) => {
     openModalEditPrice()
 }
 
-const showProof = async(index) =>{
+const showProof = async (index) => {
 
-    const url = "http://local.fastparking.com.br/clientes"
+    const url = "http://api.fastparking.com.br/clientes"
     const data = await getContact(url)
 
     console.log(index)
@@ -310,13 +315,13 @@ const showProof = async(index) =>{
     clientEqualId.forEach(data => {
         document.querySelector('#nomeComprovante').value = data.nome
         document.querySelector('#placaComprovante').value = data.placa
-        document.querySelector('#dataComprovante').value = 
+        document.querySelector('#dataComprovante').value =
             data.dataEntrada.split('-').reverse().join('.')
         document.querySelector('#horaComprovante').value = data.horaEntrada
         document.querySelector('#dataComprovanteSaida').value =
             data.dataSaida.split('-').reverse().join('.')
         document.querySelector('#horaComprovanteSaida').value = data.horaSaida
-        document.querySelector('#valorPagar').value = (data.valorPago).replace('.',',')
+        document.querySelector('#valorPagar').value = (data.valorPago).replace('.', ',')
 
     })
 
@@ -334,7 +339,7 @@ const exitClient = async () => {
     if (resp) {
 
         const index = document.querySelector('#btnPagamento').dataset.index
-        const url = "http://local.fastparking.com.br/clientes"
+        const url = "http://api.fastparking.com.br/saidas"
 
         const options = {
             method: 'PUT',
@@ -353,7 +358,7 @@ const modalVoucherChoice = (index) => {
 
 const showModalPrice = async () => {
 
-    const url = "http://local.fastparking.com.br/precos"
+    const url = "http://api.fastparking.com.br/precos"
     const dataPrice = await getContact(url)
     dataPrice.forEach(dataPrice => {
         document.querySelector('#umaHoraPreco').value = dataPrice.umaHora.replace('.', ',')
@@ -363,10 +368,10 @@ const showModalPrice = async () => {
 
     if (dataPrice.length == 0) {
         document.querySelector('#salvarPreco').textContent = 'Salvar'
-    }else{
+    } else {
         document.querySelector('#salvarPreco').textContent = 'Atualizar'
     }
- 
+
 }
 
 const registeringCustomersWhoPaid = (dados) => {
@@ -379,7 +384,7 @@ const registeringCustomersWhoPaid = (dados) => {
     <td>${dados.dataSaida.split('-').reverse().join('.')}</td>
     <td>${dados.horaEntrada}</td>
     <td>${dados.horaSaida}</td>
-    <td>${dados.valorPago.replace('.',',')}</td>
+    <td>${dados.valorPago.replace('.', ',')}</td>
     <td>
         <button type="button" class="btnVerde" data-action="comprovanteSaida-${dados.idCliente}">Comprovante</button>
     </td>
@@ -405,30 +410,30 @@ const date = () => {
 }
 
 const updateTableCustomersParagram = async () => {
-    const url = "http://local.fastparking.com.br/clientes"
+    const url = "http://api.fastparking.com.br/clientes"
     const data = await getContact(url)
     const customersWhoHaveAlreadyPaid = data.filter(data => data.dataSaida === date() && data.status == 1)
     customersWhoHaveAlreadyPaid.forEach(registeringCustomersWhoPaid)
     console.log(customersWhoHaveAlreadyPaid)
 }
 
-const amountChargedOnTheDay = async () =>{
-    const url = "http://local.fastparking.com.br/clientes"
+const amountChargedOnTheDay = async () => {
+    const url = "http://api.fastparking.com.br/clientes"
     const data = await getContact(url)
     const clientsWhoPaid = data.filter(data => data.status == 1 && data.dataSaida == date());
 
-    let resultado = 0;   
+    let resultado = 0;
     for (let index = 0; index < clientsWhoPaid.length; index++) {
         const soma = parseFloat(clientsWhoPaid[index].valorPago)
         resultado += soma
     }
 
-    document.querySelector('#valorTotalRecebido').textContent = `R$ ${resultado.toString().replace('.',',')}`
+    document.querySelector('#valorTotalRecebido').textContent = `R$ ${resultado.toString().replace('.', ',')}`
 }
 
-const exitVoucher = async (index) =>{
+const exitVoucher = async (index) => {
 
-    const urlClient = "http://local.fastparking.com.br/clientes"
+    const urlClient = "http://api.fastparking.com.br/clientes"
     const data = await getContact(urlClient)
 
     const clientEqualId = data.filter(data => data.idCliente == index);
@@ -436,13 +441,13 @@ const exitVoucher = async (index) =>{
     clientEqualId.forEach(data => {
         document.querySelector('#nomeComprovante').value = data.nome
         document.querySelector('#placaComprovante').value = data.placa
-        document.querySelector('#dataComprovante').value = 
+        document.querySelector('#dataComprovante').value =
             data.dataEntrada.split('-').reverse().join('.')
         document.querySelector('#horaComprovante').value = data.horaEntrada
         document.querySelector('#dataComprovanteSaida').value =
             data.dataSaida.split('-').reverse().join('.')
         document.querySelector('#horaComprovanteSaida').value = data.horaSaida
-        document.querySelector('#valorPagar').value = (data.valorPago).replace('.',',')
+        document.querySelector('#valorPagar').value = (data.valorPago).replace('.', ',')
 
     })
     openModalProof()

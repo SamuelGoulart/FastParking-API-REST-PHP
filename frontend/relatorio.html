@@ -14,37 +14,35 @@
     <main>
         <h1>Sistema FastParking</h1>
         <section>
-            <a href="./index.html" id="linkIndex" >
-              <img src="./img/icone_voltar.svg" alt="Icone voltar para página principal" ></a>
+            <a href="./index.html" id="linkIndex">
+                <img src="./img/icone_voltar.svg" alt="Icone voltar para página principal"></a>
             <h1>Relatório por data</h1>
             <div id="divPesquisaIntervalo">
                 <div>
-                    <form>
-                        <div>
-                            <h1>Pesquisa entre intervalo de datas </h1>
-                        </div>
-                        <div class="datasPesquisas">
-                            <label for="">Data inicio</label>
-                            <input type="date" class="input_data">
-                        </div>
-                        <div class="datasPesquisas">
-                            <label for="">Data final</label>
-                            <input type="date" class="input_data">
-                        </div>
-                        <button class="btnAzul">Limpar</button>
-                        <button class="btnVerde">Pesquisar</button>
-                    </form>
+                    <div>
+                        <h1>Pesquisa entre intervalo de datas </h1>
+                    </div>
+                    <div class="datasPesquisas">
+                        <label for="">Data inicio</label>
+                        <input id="dataInicioIntervaloDatas" type="date" class="input_data">
+                    </div>
+                    <div class="datasPesquisas">
+                        <label for="">Data final</label>
+                        <input id="dataFinalIntervaloDatas" type="date" class="input_data">
+                    </div>
+                    <button id="limpar" class="btnAzul">Limpar</button>
+                    <a href="#tabelaClienteExcluidos"> <button id="pesquisar" class="btnVerde">Pesquisar</button></a>
                 </div>
                 <div>
                     <div>
                         <h1>Pesquisa por data específica</h1>
                     </div>
                     <div class="datasPesquisas">
-                        <label for="">Data inicio</label>
-                        <input type="date" class="input_data">
+                        <label for="">Data específica</label>
+                        <input id="dataEspecifica" type="date" class="input_data">
                     </div>
-                    <button class="btnAzul">Limpar</button>
-                    <button class="btnVerde">Pesquisar</button>
+                    <button id="limparDataEspecifica" class="btnAzul">Limpar</button>
+                    <button id="pesquisarDataEspecifica" class="btnVerde">Pesquisar</button>
                 </div>
 
             </div>
@@ -60,8 +58,8 @@
                         <th>Valor pago</th>
                     </tr>
                 </thead>
-                <tbody id="tbodyClientesExcluidos">
-        
+                <tbody id="tbodyRelatorio">
+
                 </tbody>
             </table>
         </section>
