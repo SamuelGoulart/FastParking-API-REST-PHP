@@ -31,12 +31,12 @@ create table tblClientes(
 
 create table tblVagas(
     idVaga int auto_increment not null,
-    numeroVagas int not null,
+    numeroTotalVagas int not null,
+    numeroVagasDisponivel int not null,
     
      unique key(idVaga),
      primary key(idVaga)
 );
-
 
 select * from tblVagas;
 update tblVagas set numeroVagas = 50 where idVaga = 1;
@@ -74,7 +74,7 @@ SELECT MONTH(DataEntrada) AS MesCadastro, YEAR(DataCadastro) AS AnoCadastro
 
 FROM tblClientes where dataSaida between '01.01.2013' and '31.01.2013' ;
 
-SELECT * FROM tblClientes WHERE dataSaida BETWEEN '2021-06-01' AND '2021-07-04';
+SELECT * FROM tblClientes WHERE dataSaida BETWEEN '2021-07-01' AND '2021-07-31';
 SELECT * FROM tbClientes WHERE dataSaida BETWEEN ? AND ? ;
 
 

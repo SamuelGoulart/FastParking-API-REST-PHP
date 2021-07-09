@@ -82,7 +82,6 @@ const searchDate = async () => {
 document.querySelector('#pesquisarDataEspecifica').addEventListener('click', searchDate)
 document.querySelector('#pesquisar').addEventListener('click', searchDateRange)
 document.querySelector('#limpar').addEventListener('click', clearInput)
-document.querySelector('#limparDataEspecifica').addEventListener('click', clearInputDateSpecific
-)
+document.querySelector('#limparDataEspecifica').addEventListener('click', clearInputDateSpecific)
 
 

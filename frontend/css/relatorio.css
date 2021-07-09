@@ -69,10 +69,13 @@ thead th {
     font-size: 1.3rem;
 }
 
-#divPesquisaIntervalo{
-    margin: 2rem 0px 0px 10rem;
+#divforms{
     display: grid;
     grid-template-columns: 1fr 1fr;
+}
+
+#divPesquisaIntervalo{
+    margin: 2rem 0px 0px 10rem;
 }
 
 #divPesquisaIntervalo > div > div > h1{
