@@ -12,10 +12,34 @@ class Clientes extends Controller {
         echo json_encode($dados, JSON_UNESCAPED_UNICODE);
     }
 
+    function validarCampos($cliente) {
+        $erros = [];
+
+        if (!isset($cliente->nome) || $cliente->nome == "") {
+            http_response_code(400);
+            $erros[] = json_encode(["erro" => "O campo nome é obrigatório"]);
+        }
+
+        if (!isset($cliente->placa) || $cliente->placa == "") {
+            http_response_code(400);
+            $erros[] = json_encode(["erro" => "O campo da placa é obrigatório"]);
+        }
+        return $erros;
+    }
+
     public function store() {
 
         $json = file_get_contents("php://input");
         $novoCliente = json_decode($json);
+
+        $erros = $this->validarCampos($novoCliente);
+
+        if (count($erros) > 0) {
+            foreach($erros as $erro){
+                echo $erro;
+            }
+            exit();
+        }
 
         $clienteModel = $this->model("Cliente");
         $clienteModel->nome = $novoCliente->nome;
@@ -30,10 +54,8 @@ class Clientes extends Controller {
         }
     }
 
-    public function update($id)
-    {
+    public function update($id) {
         $json = file_get_contents("php://input");
-
         $clienteEditar = json_decode($json);
 
         $clienteModel = $this->model("Cliente");

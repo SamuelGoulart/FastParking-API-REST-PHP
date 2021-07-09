@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Rosario:wght@300&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="../img/icone_car.svg">
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/tooltip.css">
     <link rel="stylesheet" href="./css/responsive.css">
 </head>
 
@@ -16,7 +17,7 @@
     <section id="painelCadastro">
         <h1>Sistema FastParking</h1>
         <section id="cadastroCliente">
-            <h1>Cadastro de cliente</h1>
+            <!-- <h1>Cadastro de cliente</h1> -->
             <div>
                 <form class="formCadastro">
                     <label for="nome">Nome</label>
@@ -26,10 +27,32 @@
                     <input id="placaDoCarro" pattern="\D{3}-?\d{4}" maxlength="8" placeholder="Ex .: CHE-5729"
                         type="text" required autocomplete="off" />
                 </form>
-                <footer>
+                <footer style="width: 500px;">
                     <button id="btnSalvar" class="btnVerde">Salvar</button>
                     <button type="button" id="btnPreco" class="btnAmarelo">Preços</button>
                 </footer>
+            </div>
+            <div id="vagasDisponiveis">
+                <div id="numeroDeVagas">
+                    <header>
+                        <h1>Numero de vagas, disponivel</h1>
+                    </header>
+                    <h1 id="mostrarVagasDisponivel"> </h1>
+
+                    <footer>
+                        <button style="display: grid; grid-template-columns: 1fr; padding-top: 5px;" class="btnVagas" id="btnVagas">
+                            <div class="tooltip">
+                                <img style="width: 15px; height: 15px;" src="./img/icone_informacao.svg" alt=""
+                                    srcset="">
+                                <span class="tooltiptext">Informe o número de vagas do estacionamento</span>
+                            </div>
+                            <div style="margin-top: -25px;" >
+                                Vagas
+                            </div>
+                        </button>
+                    </footer>
+                </div>
+
             </div>
         </section>
         <div class="scroll-more">
@@ -46,6 +69,29 @@
             </a>
         </div>
     </section>
+
+    <!-- MODAL VAGAS -->
+    <div class="modal" id="modalVagas">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h1 class="tituloModal">Informe o número total de vagas do estacionamento</h1>
+                <span class="close-button" id="closeVagas">&#10006;</span>
+            </header>
+
+            <form class="formInputMaterializado formVagas">
+                <div class="input-container">
+                    <input class="input" type="text" id="inputVagas" required autocomplete="off" />
+                    <label class="label inputSengundoAdiante" for="numeroDeVagas">Qual é o número total de vagas</label>
+                </div>
+            </form>
+
+            <footer class="modal-footer btnTres">
+                <button type="submit" class="btnVerde" id="btnSalvarVagas">Salvar</button>
+                <button type="submit" class="btnAmarelo" id="fecharModalVagas">Fechar</button>
+
+            </footer>
+        </div>
+    </div>
 
     <!-- MODAL COMPROVANTE DE ENTRADA -->
     <div class="modal" id="modalComprovanteEntrada">
@@ -118,7 +164,7 @@
             <div>
                 <h1 id="relatorioDoDia"></h1>
                 <div>
-                    <h1 id="h1ValorRecebido" >Valor total recebido = <span id="valorTotalRecebido"></span> </h1>
+                    <h1 id="h1ValorRecebido">Valor total recebido = <span id="valorTotalRecebido"></span> </h1>
                 </div>
             </div>
             <table class="table" id="tabelaClientesQuePagaram">
@@ -185,7 +231,7 @@
                     <label class="label inputSengundoAdiante" for="placaEditar">Placa do carro</label>
                 </div>
                 <div class="input-container">
-                    <input id="dataEditar" class="input disabledInput" type="text" r disabled=""  />
+                    <input id="dataEditar" class="input disabledInput" type="text" r disabled="" />
                     <label class="label inputSengundoAdiante" for="dataEditar">Data</label>
                 </div>
                 <div class="input-container">

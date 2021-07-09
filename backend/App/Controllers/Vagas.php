@@ -11,9 +11,29 @@ class Vagas extends Controller {
         echo json_encode($dados, JSON_UNESCAPED_UNICODE);
     }
 
+    function validarCampos($vagas) {
+        $erros = [];
+
+        if (!isset($vagas->numeroTotalVagas) || $vagas->numeroTotalVagas == "") {
+            http_response_code(400);
+            $erros[] = json_encode(["erro" => "O campo de número total vagas é obrigatório"]);
+        }
+
+        return $erros;
+    }
+
     public function store(){
         $json = file_get_contents("php://input");
         $inserirVagas = json_decode($json);
+
+        $erros = $this->validarCampos($inserirVagas);
+
+        if (count($erros) > 0) {
+            foreach($erros as $erro){
+                echo $erro;
+            }
+            exit();
+        }
 
         $vagaModel = $this->model("Vaga");
         $vagaModel->numeroTotalVagas = $inserirVagas->numeroTotalVagas;
@@ -45,6 +65,7 @@ class Vagas extends Controller {
         }
             
         $vagaModel->id = $id;
+        $vagaModel->numeroTotalVagas = $vagaEditar->numeroTotalVagas;
         $vagaModel->numeroVagasDisponivel = $vagaEditar->numeroVagasDisponivel;
            
         if($vagaModel->atualizar()){

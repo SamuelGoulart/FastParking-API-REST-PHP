@@ -78,6 +78,10 @@ thead th {
     margin: 2rem 0px 0px 10rem;
 }
 
+#divPesquisaDataEspecifica{
+    margin-top: 2rem;
+}
+
 #divPesquisaIntervalo > div > div > h1{
     margin: 15px 0px 15px 0px;
     font-size: 1.4rem;
@@ -103,6 +107,15 @@ thead th {
     height: 45px;
     font-size: 18px;
     width: 312px;
+}
+
+#divValorRecido{
+    margin-top: 3rem;
+}
+
+#h1ValorRecebido{
+    margin-left: 4rem;
+    font-size: 1.8rem;
 }
 
 .btnVerde {

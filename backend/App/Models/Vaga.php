@@ -47,10 +47,11 @@ class Vaga {
 
         }else{
             
-            $sql = " UPDATE tblVagas SET numeroTotalVagas = ? WHERE idVaga = ? ";
+            $sql = " UPDATE tblVagas SET numeroTotalVagas = ?, numeroVagasDisponivel = ? WHERE idVaga = ? ";
             $stmt = Model::getConn()->prepare($sql);
             $stmt->bindValue(1, $this->numeroTotalVagas);
-            $stmt->bindValue(2, 1);
+            $stmt->bindValue(2, $this->numeroVagasDisponivel);
+            $stmt->bindValue(3, 1);
 
         }
 

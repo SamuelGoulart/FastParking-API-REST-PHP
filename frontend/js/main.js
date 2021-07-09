@@ -9,6 +9,9 @@ const openModalEditPrice = () => document.querySelector('#modalEditar')
 const openModalProof = () => document.querySelector('#modalComprovante')
     .classList.add('active')
 
+const openVacancies = () => document.querySelector('#modalVagas')
+    .classList.add('active')
+
 const executeAnimate = () => document.querySelector('#relatorioPagamento')
     .classList.add('animate')
 
@@ -60,6 +63,9 @@ const closeComprovante = () => document.querySelector('#modalComprovante')
 const closeChoiceVoucher = () => document.querySelector('#modalEscolhaDeComprovante')
     .classList.remove('active')
 
+const closeVacancies = () => document.querySelector('#modalVagas')
+    .classList.remove('active')
+
 const closeTabCustomersTable = () => document.querySelector('#tabelaClientesQueNaoPagaram')
     .classList.add('displayNome')
 
@@ -91,6 +97,16 @@ const insertPrice = async (registerPrices) => {
         body: JSON.stringify(registerPrices)
     }
     await fetch(url, options)
+}
+
+const insertVacancies = async (vacancies) => {
+    const url = "http://api.fastparking.com.br/vagas"
+    const options = {
+        method: 'POST',
+        body: JSON.stringify(vacancies)
+    }
+    await fetch(url, options)
+    updateVacanciesText()
 }
 
 const isValidFormUpdateClient = () => document.querySelector('.formEditarCadastro').reportValidity()
@@ -185,30 +201,45 @@ const saveClient = async () => {
         const urlPrice = "http://api.fastparking.com.br/precos"
         const dataPrice = await getContact(urlPrice)
 
+        const urlVacancies = "http://api.fastparking.com.br/vagas"
+        const dataVacancies = await getContact(urlVacancies)
+
         if (dataPrice.length == 0) {
-            confirm("Deve ser informado os preços, antes de inserir o primeiro cliente")
+            confirm("Deve ser informado os preços, antes de inserir o primeiro cliente.")
             document.querySelector('#salvarPreco').textContent = 'Salvar'
             openModalPrice()
 
+        } else if (dataVacancies.length == 0) {
+            confirm("Deve ser informado número total de vagas do estacionamento, antes de inserir o primeiro cliente.")
+            openVacancies()
+
         } else {
-            const newClient = {
-                'nome': document.querySelector('#nome').value,
-                'placa': document.querySelector('#placaDoCarro').value,
+            if (dataVacancies[0].numeroVagasDisponivel == 0) {
+
+                alert('Não tem mais vagas disponíveis no estacionamento')
+
+            } else {
+                const newClient = {
+                    'nome': document.querySelector('#nome').value,
+                    'placa': document.querySelector('#placaDoCarro').value,
+                }
+
+                await insertDB(newClient)
+
+                updateTable()
+                decreasesAndIncreasesVacancies(0)
+
+
+                const url = "http://api.fastparking.com.br/clientes"
+                const data = await getContact(url)
+
+                const getTheLastRegisteredCustomerId = data.length
+                const lastClient = data.filter(data => data.idCliente == getTheLastRegisteredCustomerId)
+
+                proofOfEntry(lastClient)
+
+                clearInput()
             }
-
-            await insertDB(newClient)
-
-            updateTable()
-
-            const url = "http://api.fastparking.com.br/clientes"
-            const data = await getContact(url)
-
-            const getTheLastRegisteredCustomerId = data.length
-            const lastClient = data.filter(data => data.idCliente == getTheLastRegisteredCustomerId)
-
-            proofOfEntry(lastClient)
-
-            clearInput()
         }
     }
 }
@@ -222,8 +253,28 @@ const updatePrice = async () => {
             'demaisHoras': (document.querySelector('#precoAteUmaHora').value).replace(',', '.'),
         })
     }
-    console.log(options)
     await fetch(url + '/' + 1, options)
+}
+
+
+const updateVacancies = async () => {
+    const url = "http://api.fastparking.com.br/vagas"
+
+    const urlClient = "http://api.fastparking.com.br/clientes"
+    const dataClient = await getContact(urlClient)
+    const clientEqualStatus = dataClient.filter(dataClient => dataClient.status == 0 )
+
+    const input = document.querySelector('#inputVagas').value
+  
+    const options = {
+        method: 'PUT',
+        body: JSON.stringify({
+            'numeroTotalVagas': input,
+            'numeroVagasDisponivel': input - clientEqualStatus.length
+        })
+    }
+    await fetch(url + '/' + 1, options)
+    updateVacanciesText()
 }
 
 const isValidFormPrice = () => document.querySelector('.form').reportValidity()
@@ -285,6 +336,7 @@ const deleteClient = async (index) => {
         }
         await fetch(url + '/' + index, options)
         updateTable()
+        decreasesAndIncreasesVacancies(1)
     }
 }
 
@@ -310,7 +362,6 @@ const showProof = async (index) => {
     const url = "http://api.fastparking.com.br/clientes"
     const data = await getContact(url)
 
-    console.log(index)
     const clientEqualId = data.filter(data => data.idCliente == index);
     clientEqualId.forEach(data => {
         document.querySelector('#nomeComprovante').value = data.nome
@@ -348,6 +399,7 @@ const exitClient = async () => {
         await fetch(url + '/' + index, options)
 
         showProof(index)
+        decreasesAndIncreasesVacancies(1)
     }
 }
 
@@ -356,7 +408,7 @@ const modalVoucherChoice = (index) => {
     document.querySelector('#btnPagamento').dataset.index = index
 }
 
-const showModalPrice = async () => {
+const showPriceOnInput = async () => {
 
     const url = "http://api.fastparking.com.br/precos"
     const dataPrice = await getContact(url)
@@ -364,12 +416,25 @@ const showModalPrice = async () => {
         document.querySelector('#umaHoraPreco').value = dataPrice.umaHora.replace('.', ',')
         document.querySelector('#precoAteUmaHora').value = dataPrice.demaisHoras.replace('.', ',')
     })
-    console.log(dataPrice.length)
 
     if (dataPrice.length == 0) {
         document.querySelector('#salvarPreco').textContent = 'Salvar'
     } else {
         document.querySelector('#salvarPreco').textContent = 'Atualizar'
+    }
+
+}
+
+const showInputVacancies = async () => {
+    const url = "http://api.fastparking.com.br/vagas"
+    const data = await getContact(url)
+
+    data.forEach(data => { document.querySelector('#inputVagas').value = data.numeroTotalVagas })
+
+    if (data.length == 0) {
+        document.querySelector('#btnSalvarVagas').textContent = 'Salvar'
+    } else {
+        document.querySelector('#btnSalvarVagas').textContent = 'Atualizar'
     }
 
 }
@@ -414,7 +479,6 @@ const updateTableCustomersParagram = async () => {
     const data = await getContact(url)
     const customersWhoHaveAlreadyPaid = data.filter(data => data.dataSaida === date() && data.status == 1)
     customersWhoHaveAlreadyPaid.forEach(registeringCustomersWhoPaid)
-    console.log(customersWhoHaveAlreadyPaid)
 }
 
 const amountChargedOnTheDay = async () => {
@@ -452,6 +516,56 @@ const exitVoucher = async (index) => {
     })
     openModalProof()
 }
+
+const isValidFormVacancies = () => document.querySelector('.formVagas').reportValidity()
+
+const saveVacancies = async () => {
+
+    if (isValidFormVacancies()) {
+
+        const vacancies = {
+            'numeroTotalVagas': document.querySelector('#inputVagas').value
+        }
+
+        const url = "http://api.fastparking.com.br/vagas"
+        const data = await getContact(url)
+        data.length == 0 ? insertVacancies(vacancies) : updateVacancies()
+
+        closeVacancies()
+    }
+
+}
+
+const updateVacanciesText = async () => {
+
+    const url = "http://api.fastparking.com.br/vagas"
+    const data = await getContact(url)
+
+    data.forEach(data => {
+        document.querySelector('#mostrarVagasDisponivel').textContent = data.numeroVagasDisponivel
+    })
+}
+
+// status 0 diminui uma vaga
+// status 1 aumenta uma vaga
+
+const decreasesAndIncreasesVacancies = async (status) => {
+    const url = "http://api.fastparking.com.br/vagas"
+    const data = await getContact(url)
+
+    const result = status == 0 ? data[0].numeroVagasDisponivel - 1 : parseInt(data[0].numeroVagasDisponivel) + 1
+
+    const options = {
+        method: 'PUT',
+        body: JSON.stringify({
+            'numeroVagasDisponivel': result
+        })
+    }
+
+    await fetch(url + '/' + 1, options)
+    updateVacanciesText()
+}
+
 
 const actionButttons = (event) => {
     const element = event.target
@@ -499,11 +613,20 @@ document.querySelector('#cancelarEditarDados')
 document.querySelector('#cancelarComprovamte')
     .addEventListener('click', closeModalProof)
 
+document.querySelector('#fecharModalVagas')
+    .addEventListener('click', closeVacancies)
+
+document.querySelector('#closeVagas')
+    .addEventListener('click', closeVacancies)
+
 document.querySelector('#tabelaClientes')
     .addEventListener('click', actionButttons)
 
 document.querySelector('#tabelaClientesQuePagaram')
     .addEventListener('click', actionButttons)
+
+document.querySelector('#btnVagas')
+    .addEventListener('click', () => { openVacancies(); showInputVacancies() })
 
 document.querySelector('#umaHoraPreco')
     .addEventListener('keyup', applyMask)
@@ -518,10 +641,13 @@ document.querySelector('#placaEditar')
     .addEventListener('keyup', applyMaskCar)
 
 document.querySelector('#btnPreco')
-    .addEventListener('click', () => { openModalPrice(); showModalPrice() })
+    .addEventListener('click', () => { openModalPrice(); showPriceOnInput() })
 
 document.querySelector('#btnSalvar')
     .addEventListener('click', saveClient)
+
+document.querySelector('#btnSalvarVagas')
+    .addEventListener('click', saveVacancies)
 
 document.querySelector('#btnAtualizarCliente')
     .addEventListener('click', updateClient)
@@ -531,7 +657,6 @@ document.querySelector('#btnComprovanteEntrada')
 
 document.querySelector('#btnPagamento')
     .addEventListener('click', exitClient)
-
 
 document.querySelector('#btnImprimirComprovante')
     .addEventListener('click', () => { window.print() })
@@ -549,3 +674,4 @@ document.querySelector('#abaTabelaClientes')
 updateTable()
 updateTableCustomersParagram()
 amountChargedOnTheDay()
+updateVacanciesText()

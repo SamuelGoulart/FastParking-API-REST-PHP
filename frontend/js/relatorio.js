@@ -39,13 +39,25 @@ const clearInputDateSpecific = () => {
 
 }
 
+const calculateAmountReceived = (data) =>{
+    let resultado = 0;
+    for (let index = 0; index < data.length; index++) {
+        const soma = parseFloat(data[index].valorPago)
+        resultado += soma
+    }
+
+    document.querySelector('#valorTotalRecebido').textContent = `R$ ${resultado.toString().replace('.', ',')}`
+
+}
+
+
 const isValidForm = () => document.querySelector('#formIntervaloDeDatas').reportValidity()
 
 const searchDateRange = async () => {
 
     if (isValidForm()) {
-          console.log('sssssss');
         clearTable()
+
         const startDate = document.querySelector('#dataInicioIntervaloDatas').value.split('-').join('-')
         const endDate = document.querySelector('#dataFinalIntervaloDatas').value.split('-').join('-')
 
@@ -54,6 +66,7 @@ const searchDateRange = async () => {
         const requestedClient = await getContact(url)
 
         const data = requestedClient.filter(requestedClient => requestedClient.status == 1)
+        calculateAmountReceived(data)
         data.forEach(createRegistration)
 
         if (data.length == 0) {
@@ -72,6 +85,7 @@ const searchDate = async () => {
         const url = `http://api.fastparking.com.br/relatorios?dataInicio=${specificDate}`
         const requestedClient = await getContact(url)
         const data = requestedClient.filter(requestedClient => requestedClient.status == 1)
+        calculateAmountReceived(data)
         data.forEach(createRegistration)
         if (data.length == 0) {
             alert(`Nenhum cliente encontrado na data ${specificDate.split('-').reverse().join('.')}`);

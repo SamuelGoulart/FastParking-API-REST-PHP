@@ -62,7 +62,7 @@ class Cliente {
 
         if (!empty($this->nome)) {
             $sql = " UPDATE tblClientes SET 
-            nome = ?, placa = ? WHERE idCliente = ? ";
+            nome = ?, placa = ucase(?) WHERE idCliente = ? ";
             $stmt = Model::getConn()->prepare($sql);
             $stmt->bindValue(1, $this->nome);
             $stmt->bindValue(2, $this->placa);
