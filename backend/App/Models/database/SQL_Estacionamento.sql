@@ -19,15 +19,20 @@ create table tblClientes(
    dataSaida date,
    horaEntrada time not null,
    horaSaida time,
-   status tinyint not null,
+   motivoExclusao varchar(255),
+   status tinyint,
    valorPago decimal(10,2),
-   idPreco int not null,
-   
-	constraint FK_Precos_Clientes
-    foreign key(idPreco)
-    references tblPrecos (idPreco),
-    
+
    unique key(idCliente),
    primary key(idCliente)
+);
+
+create table tblVagas(
+    idVaga int auto_increment not null,
+    numeroTotalVagas int not null,
+    numeroVagasDisponivel int not null,
+    
+     unique key(idVaga),
+     primary key(idVaga)
 );
 
