@@ -18,32 +18,35 @@
                 <img src="./img/icone_voltar.svg" alt="Icone voltar para página principal"></a>
             <h1>Relatório por data</h1>
             <div id="divPesquisaIntervalo">
-                <div>
+                <form id="formIntervaloDeDatas">
                     <div>
                         <h1>Pesquisa entre intervalo de datas </h1>
                     </div>
                     <div class="datasPesquisas">
                         <label for="">Data inicio</label>
-                        <input id="dataInicioIntervaloDatas" type="date" class="input_data">
+                        <input id="dataInicioIntervaloDatas" type="date" class="input_data" required />
                     </div>
                     <div class="datasPesquisas">
                         <label for="">Data final</label>
-                        <input id="dataFinalIntervaloDatas" type="date" class="input_data">
+                        <input id="dataFinalIntervaloDatas" type="date" class="input_data" required />
                     </div>
-                    <button id="limpar" class="btnAzul">Limpar</button>
-                    <a href="#tabelaClienteExcluidos"> <button id="pesquisar" class="btnVerde">Pesquisar</button></a>
-                </div>
-                <div>
+                    <button id="limpar" type="button" class="btnAzul">Limpar</button>
+                    <button id="pesquisar" type="submit"
+                            class="btnVerde">Pesquisar</button>
+                </form>
+                <form id="formDataEspecifica" >
                     <div>
-                        <h1>Pesquisa por data específica</h1>
+                        <div>
+                            <h1>Pesquisa por data específica</h1>
+                        </div>
+                        <div class="datasPesquisas">
+                            <label for="">Data específica</label>
+                            <input id="dataEspecifica" type="date" required class="input_data">
+                        </div>
+                        <button id="limparDataEspecifica" type="button" class="btnAzul">Limpar</button>
+                        <button id="pesquisarDataEspecifica" type="submit" class="btnVerde">Pesquisar</button>
                     </div>
-                    <div class="datasPesquisas">
-                        <label for="">Data específica</label>
-                        <input id="dataEspecifica" type="date" class="input_data">
-                    </div>
-                    <button id="limparDataEspecifica" class="btnAzul">Limpar</button>
-                    <button id="pesquisarDataEspecifica" class="btnVerde">Pesquisar</button>
-                </div>
+                </form>
 
             </div>
             <table class="table" id="tabelaClienteExcluidos">

@@ -2,8 +2,7 @@
 
 namespace App\Core;
 
-class Router
-{
+class Router {
 
     private $controller;
 
@@ -19,13 +18,10 @@ class Router
         header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
         header("Access-Control-Allow-Headers: Content-Type");
 
-        //pegar a url que está sendo acessada
         $url = $this->parseURL();
 
-        //setamos que a resposta será enviada no formato JSON
         header("Content-type: application/json");
 
-        //existe um controller com este nome
         if (file_exists("../App/Controllers/" . $url[1] . ".php")) {
 
             $this->controller = $url[1];
@@ -42,13 +38,10 @@ class Router
 
         $this->controller = new $this->controller;
 
-        //pegando o http method da requisição
         $this->method = $_SERVER["REQUEST_METHOD"];
 
-        //pegando o método do controller baseado no http method
         switch ($this->method) {
             case "GET":
-                //Teremos o parametro
                 if (isset($url[2])) {
                     $this->controllerMethod = "find";
                     $this->params = [$url[2]];
@@ -92,9 +85,8 @@ class Router
         call_user_func_array([$this->controller, $this->controllerMethod], $this->params);
     }
 
-    //retorna o controller, o método e os params da url em um vetor
-    private function parseURL()
-    {
+    private function parseURL() {
+        
         $url = explode("?", $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"])[0];
         return explode("/",$url);
     }

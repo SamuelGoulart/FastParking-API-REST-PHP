@@ -29,6 +29,19 @@ create table tblClientes(
    primary key(idCliente)
 );
 
+create table tblVagas(
+    idVaga int auto_increment not null,
+    numeroVagas int not null,
+    
+     unique key(idVaga),
+     primary key(idVaga)
+);
+
+
+select * from tblVagas;
+update tblVagas set numeroVagas = 50 where idVaga = 1;
+
+
 UPDATE tblClientes SET motivoExclusao = 'Meu amigo', status = ''  where idCliente = 1;
 
 
@@ -44,7 +57,7 @@ select * from tblPrecos;
 
 select datediff('2021-05-28', '2021-06-29')*-1 as diferencaEntreDatas;
 
-select * from tblClientes where dataSaida = '2021-07-04';
+select * from tblClientes where dataSaida = '2021-07-05';
 
 select timediff('15:05:04', '18:07:20') as difereca;
 
@@ -63,6 +76,10 @@ FROM tblClientes where dataSaida between '01.01.2013' and '31.01.2013' ;
 
 SELECT * FROM tblClientes WHERE dataSaida BETWEEN '2021-06-01' AND '2021-07-04';
 SELECT * FROM tbClientes WHERE dataSaida BETWEEN ? AND ? ;
+
+
+select dataEntrada, dataSaida, horaEntrada, horaSaida from tblClientes where idCliente = ?
+
 
 
 

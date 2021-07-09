@@ -22,6 +22,13 @@ const createRegistration = (requestedDate) => {
     document.getElementById('tbodyRelatorio').appendChild(cadastro)
 }
 
+const clearTable = () => {
+    const clientTable = document.querySelector('#tbodyRelatorio')
+    while (clientTable.firstChild) {
+        clientTable.removeChild(clientTable.lastChild)
+    }
+}
+
 const clearInput = () => {
     document.querySelector('#dataInicioIntervaloDatas').value = ''
     document.querySelector('#dataFinalIntervaloDatas').value = ''
@@ -32,29 +39,44 @@ const clearInputDateSpecific = () => {
 
 }
 
+const isValidForm = () => document.querySelector('#formIntervaloDeDatas').reportValidity()
+
 const searchDateRange = async () => {
 
-    const startDate = document.querySelector('#dataInicioIntervaloDatas').value.split('-').join('-')
-    const endDate = document.querySelector('#dataFinalIntervaloDatas').value.split('-').join('-')
+    if (isValidForm()) {
+          console.log('sssssss');
+        clearTable()
+        const startDate = document.querySelector('#dataInicioIntervaloDatas').value.split('-').join('-')
+        const endDate = document.querySelector('#dataFinalIntervaloDatas').value.split('-').join('-')
 
-    const url = `http://api.fastparking.com.br/relatorios?dataInicio=${startDate}&dataFinal=${endDate}`
+        const url = `http://api.fastparking.com.br/relatorios?dataInicio=${startDate}&dataFinal=${endDate}`
 
-    const requestedClient = await getContact(url)
+        const requestedClient = await getContact(url)
 
-    const data = requestedClient.filter(requestedClient => requestedClient.status == 1)
-    data.forEach(createRegistration)
-    console.log(data)
+        const data = requestedClient.filter(requestedClient => requestedClient.status == 1)
+        data.forEach(createRegistration)
+
+        if (data.length == 0) {
+            alert(`Nenhum cliente encontrado entre as datas de ${startDate.split('-').reverse().join('.')} e ${endDate.split('-').reverse().join('.')}`);
+        }
+    }
 }
 
-const searchDate = async () =>{
+const isValidFormDatEspecific = () => document.querySelector('#formDataEspecifica').reportValidity()
 
-    const specificDate = document.querySelector('#dataEspecifica').value.split('-').join('-')
-    const url = `http://api.fastparking.com.br/relatorios?dataInicio=${specificDate}`
-    const requestedClient = await getContact(url)
-    // const date =  document.querySelector('#dataEspecifica').value
-    // const requestedClient = await getContact(url)
+const searchDate = async () => {
 
-    console.log(requestedClient)
+    if (isValidFormDatEspecific()) {
+        clearTable()
+        const specificDate = document.querySelector('#dataEspecifica').value.split('-').join('-')
+        const url = `http://api.fastparking.com.br/relatorios?dataInicio=${specificDate}`
+        const requestedClient = await getContact(url)
+        const data = requestedClient.filter(requestedClient => requestedClient.status == 1)
+        data.forEach(createRegistration)
+        if (data.length == 0) {
+            alert(`Nenhum cliente encontrado na data ${specificDate.split('-').reverse().join('.')}`);
+        }
+    }
 }
 
 document.querySelector('#pesquisarDataEspecifica').addEventListener('click', searchDate)

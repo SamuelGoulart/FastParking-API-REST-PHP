@@ -9,22 +9,19 @@ class Clientes extends Controller {
 
         $clienteModel = $this->model("Cliente");
         $dados = $clienteModel->listarTodos();
-
         echo json_encode($dados, JSON_UNESCAPED_UNICODE);
     }
 
     public function store() {
 
         $json = file_get_contents("php://input");
-
         $novoCliente = json_decode($json);
 
         $clienteModel = $this->model("Cliente");
         $clienteModel->nome = $novoCliente->nome;
         $clienteModel->placa = $novoCliente->placa;
 
-        $clienteModel = $clienteModel->inserir();
-        if ($clienteModel) {
+        if ($clienteModel->inserir()) {
             http_response_code(201);
             echo json_encode($clienteModel);
         } else {
@@ -51,7 +48,6 @@ class Clientes extends Controller {
         $clienteModel->nome = $clienteEditar->nome;
         $clienteModel->placa = $clienteEditar->placa;
         $clienteModel->motivoExclusao = $clienteEditar->motivoExclusao;
-
 
         if ($clienteModel->atualizar()) {
             http_response_code(204);

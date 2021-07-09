@@ -19,9 +19,7 @@ class Precos extends Controller {
         $precoModel->umaHora = $inserirPrecos->umaHora;
         $precoModel->demaisHoras = $inserirPrecos->demaisHoras;
 
-        $precoModel = $precoModel->inserir();
-
-        if($precoModel){
+        if($precoModel->inserir()){
             http_response_code(201);
 
             echo json_encode($precoModel);

@@ -2,8 +2,7 @@
 
 use App\Core\Model;
 
-class Cliente
-{
+class Cliente {
 
     public $id;
     public $nome;
@@ -15,8 +14,15 @@ class Cliente
     public $status;
     public $motivoExclusao;
 
-    public function listarTodos()
-    {
+    public function retornaDataHora() {
+        date_default_timezone_set("America/Sao_Paulo");
+        $data_Hora = new DateTime();
+        $dataAtual = $data_Hora->format('Y-m-d');
+        $horaAtual = $data_Hora->format('H:i');
+        return array($dataAtual, $horaAtual);
+    }
+
+    public function listarTodos() {
 
         $sql = " SELECT * FROM tblClientes ";
 
@@ -31,12 +37,7 @@ class Cliente
         }
     }
 
-    public function inserir()
-    {
-        date_default_timezone_set("America/Sao_Paulo");
-        $data_Hora = new DateTime();
-        $dataAtual = $data_Hora->format('Y-m-d');
-        $horaAtual = $data_Hora->format('H:i');
+    public function inserir() {
 
         $sql = " INSERT INTO tblClientes 
                 (nome, placa, dataEntrada, horaEntrada, status) 
@@ -45,8 +46,8 @@ class Cliente
         $stmt = Model::getConn()->prepare($sql);
         $stmt->bindValue(1, $this->nome);
         $stmt->bindValue(2, $this->placa);
-        $stmt->bindValue(3, $dataAtual);
-        $stmt->bindValue(4, $horaAtual);
+        $stmt->bindValue(3, $this->retornaDataHora()[0]);
+        $stmt->bindValue(4, $this->retornaDataHora()[1]);
         $stmt->bindValue(5, 0);
 
         if ($stmt->execute()) {
@@ -68,10 +69,12 @@ class Cliente
             $stmt->bindValue(3, $this->id);
         } else {
 
-            $sql = " UPDATE tblClientes SET dataSaida = current_date(), horaSaida = curtime(), motivoExclusao = ?, status = 10 where idCliente = ? ";
+            $sql = " UPDATE tblClientes SET dataSaida = ? , horaSaida = ?, motivoExclusao = ?, status = 10 where idCliente = ? ";
             $stmt = Model::getConn()->prepare($sql);
-            $stmt->bindValue(1, $this->motivoExclusao);
-            $stmt->bindValue(2, $this->id);
+            $stmt->bindValue(1, $this->retornaDataHora()[0]);
+            $stmt->bindValue(2, $this->retornaDataHora()[1]);
+            $stmt->bindValue(3, $this->motivoExclusao);
+            $stmt->bindValue(4, $this->id);
         }
 
         return $stmt->execute();
