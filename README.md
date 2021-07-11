@@ -24,7 +24,7 @@
 /precos                | PUT                         |Atualizar os preços
 /saidas:id             | PUT                         |Gera a saída pelo id
 /relatorios?dataInicio=aaaa-mm-dd  | GET             |Busca de clientes por uma data específica
-/relatorios?dataInicio=aaaa-mm-dd<br>&dataFinal=aaa-mm-dd  | GET    |Busca de clientes por intervalo de datas
+/relatorios?dataInicio=aaaa-mm-dd&dataFinal=aaa-mm-dd  | GET    |Busca de clientes por intervalo de datas
 /vagas                 | POST                        |Inserção do número total de vagas do estacionamento
 /vagas                 | GET                         |Listar o número total de vagas do estacionamento
 /vagas                 | PUT                         |Atualizar o número total de vagas do estacionamento
