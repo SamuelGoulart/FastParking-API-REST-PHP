@@ -10,11 +10,11 @@
 - [x] Implementar os Controllers e Models.
 - [X] Configurar o CORS.
 - [X] Criar um repositório no GITHUB para o back-end. 
-- [ ] Publicar o projeto back-end no https://br.000webhost.com/
+- [X] Publicar o projeto back-end no https://br.000webhost.com/
 
 
-## Recursos Rotas / End-points
-**Rotas / End-Points** | **Método de requisição**    |**Função da rota**
+## Rotas / End-points
+**Rotas**              | **Método de requisição**    |**Função da rota**
 -----------            |-------------                |---------  
 /clientes              | POST                        |Inserção de novos clientes
 /clientes              | GET                         |Listar os clientes
@@ -22,6 +22,15 @@
 /precos                | POST                        |Inserção dos preços
 /precos                | GET                         |Listar os preços
 /precos                | PUT                         |Atualizar os preços
+/saidas:id             | PUT                         |Gera a saída pelo id
+/relatorios?dataInicio=aaaa-mm-dd  | GET             |Busca de clientes por uma data específica
+/relatorios?dataInicio=aaaa-mm-dd<br>&dataFinal=aaa-mm-dd  | GET    |Busca de clientes por intervalo de datas
+/vagas                 | POST                        |Inserção do número total de vagas do estacionamento
+/vagas                 | GET                         |Listar o número total de vagas do estacionamento
+/vagas                 | PUT                         |Atualizar o número total de vagas do estacionamento
+
+
+
 
 ## Informações que trafegarão em cada recurso
 ``` bash
@@ -35,7 +44,7 @@
       "horaEntrada": "14:32:00",
       "horaSaida": "17:15:00",
       "status": 1,
-      "valorPago"
+      "valorPago: 10.00"
    }
 ```
 
@@ -45,11 +54,15 @@
     "umaHora": "15.00",
     "demaisHoras": "5.50"
   }
+  
+```
+``` bash
+  /saida:id
 ```
 
 ## Controllers e Models
 **Título**          | Controllers e Models             
 --------------------|-                                           
-Controllers          | Clientes e Precos                           
-Models               | Cliente e Preco                            
+Controllers          | Clientes, Precos, saidas, relatorios e vagas                           
+Models               | Cliente, Preco, saida, relatorio e vaga                            
 
