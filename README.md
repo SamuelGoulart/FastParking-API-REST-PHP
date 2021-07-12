@@ -1,4 +1,4 @@
-# Sistema FastParking API REST PHP + <br> Consumo com JavaScript
+# Sistema FastParking 
  
  <h2>📕 Indice</h2>
 
@@ -26,7 +26,11 @@ O Sistema FastParking, faz o controle rotativo, impressão de recibo de entrada 
 Projeto desenvolvido durante o curso de técnico em desenvolvimento de sistemas na SENAI <br>
 Em integração entre as matérias de Programação web Front-end (PWFE) é Programação web Back-end (PWBE)
 
+Neste repositório tem back-end é o front-end do sistema.
+
 ## 🚀 Clone do projeto.
+
+Faça o clone dentro da pasta htdocs do xampp
 
 ```bash
 git clone https://github.com/SamuelGoulart/FastParking-API-REST-PHP
@@ -40,8 +44,9 @@ O arquivo para configuração da conexão com o banco de dados está em:<br>
 backend\App\Core\Model.php
 
 Caso queira configuar o vhosts é o hosts, assim não será preciso motivar a url nos arquivos de javaScript<br>
+
 Acesse C:/xampp/apache/conf/extra/httpd-vhosts.conf <br>
-Copie e cole na últimas linhas dentro do httpd-vhosts.conf
+Copie e cole nas últimas linhas dentro do httpd-vhosts.conf
 ```bash
 <VirtualHost *:80>
     ServerAdmin sgoulart@api.fastParking.com.br
@@ -57,7 +62,8 @@ Copie e cole na últimas linhas dentro do hosts
 ```bash
 127.0.0.1  api.fastParking.com.br
 ```
-É preciso reiniciar o xampp, para funcionar!
+É preciso reiniciar o xampp, para funcionar!<br>
+Lembrando, depois de testar o projeto, é preciso apagar ou comentar o VirtualHost é o hosts, que acabamos de colocar, ou todo projeto que você abrir será redirecionado para o projeto do FastParking
 
 ## Tarefas para criar a API REST
 
