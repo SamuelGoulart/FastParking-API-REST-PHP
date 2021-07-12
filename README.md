@@ -23,7 +23,7 @@
 
 O Sistema FastParking, faz o controle rotativo, impressão de recibo de entrada e saída, tem relatório entre intervalo de datas é relatório do dia, sendo possível saber o faturamento entre o intervalo de datas é do dia em questão.  
 
-Projeto desenvolvido durante o curso de técnico em desenvolvimento de sistemas na SENAI <br>
+Projeto desenvolvido durante o curso de técnico em desenvolvimento de sistemas na SENAI Jandira-SP<br>
 Em integração entre as matérias de Programação web Front-end (PWFE) é Programação web Back-end (PWBE)
 
 Neste repositório tem back-end é o front-end do sistema.
