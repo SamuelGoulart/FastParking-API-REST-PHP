@@ -22,7 +22,7 @@ class Router {
 
         header("Content-type: application/json");
 
-        if (file_exists("../App/Controllers/" . $url[1] . ".php")) {
+        if (file_exists("../App/Controllers/" . ucfirst($url[1]) . ".php")) {
 
             $this->controller = $url[1];
             unset($url[1]);
@@ -34,7 +34,7 @@ class Router {
             exit;
         }
 
-        require_once "../App/Controllers/" . $this->controller . ".php";
+        require_once "../App/Controllers/" .  ucfirst($this->controller) . ".php";
 
         $this->controller = new $this->controller;
 

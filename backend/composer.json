@@ -1,9 +1,7 @@
 {
     "name": "samuel/fast-parking",
     "description": "fast Parking API REST",
-    "require": {
-        "firebase/php-jwt": "^5.4"
-    },
+    "require": {  },
     "autoload": {
         "psr-4": {
             "App\\": "App/"

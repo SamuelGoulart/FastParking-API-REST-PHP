@@ -61,7 +61,7 @@ const searchDateRange = async () => {
         const startDate = document.querySelector('#dataInicioIntervaloDatas').value.split('-').join('-')
         const endDate = document.querySelector('#dataFinalIntervaloDatas').value.split('-').join('-')
 
-        const url = `http://api.fastparking.com.br/relatorios?dataInicio=${startDate}&dataFinal=${endDate}`
+        const url = `https://fastparking-samuel-api.herokuapp.com/relatorios?dataInicio=${startDate}&dataFinal=${endDate}`
 
         const requestedClient = await getContact(url)
 
@@ -82,7 +82,7 @@ const searchDate = async () => {
     if (isValidFormDatEspecific()) {
         clearTable()
         const specificDate = document.querySelector('#dataEspecifica').value.split('-').join('-')
-        const url = `http://api.fastparking.com.br/relatorios?dataInicio=${specificDate}`
+        const url = `https://fastparking-samuel-api.herokuapp.com/relatorios?dataInicio=${specificDate}`
         const requestedClient = await getContact(url)
         const data = requestedClient.filter(requestedClient => requestedClient.status == 1)
         calculateAmountReceived(data)

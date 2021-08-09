@@ -82,7 +82,7 @@ const getContact = async (url) => {
 }
 
 const insertDB = async (clientData) => {
-    const url = "https://samuelg7.000webhostapp.com/fastparking/clientes"
+    const url = "https://fastparking-samuel-api.herokuapp.com/clientes"
     const options = {
         method: 'POST',
         body: JSON.stringify(clientData)
@@ -91,7 +91,7 @@ const insertDB = async (clientData) => {
 }
 
 const insertPrice = async (registerPrices) => {
-    const url = "https://samuelg7.000webhostapp.com/fastparking/precos"
+    const url = "https://fastparking-samuel-api.herokuapp.com/precos"
     const options = {
         method: 'POST',
         body: JSON.stringify(registerPrices)
@@ -100,7 +100,7 @@ const insertPrice = async (registerPrices) => {
 }
 
 const insertVacancies = async (vacancies) => {
-    const url = "https://samuelg7.000webhostapp.com/fastparking/vagas"
+    const url = "https://fastparking-samuel-api.herokuapp.com/vagas"
     const options = {
         method: 'POST',
         body: JSON.stringify(vacancies)
@@ -115,7 +115,7 @@ const updateClient = async () => {
 
     if (isValidFormUpdateClient()) {
 
-        const url = "https://samuelg7.000webhostapp.com/fastparking/clientes"
+        const url = "https://fastparking-samuel-api.herokuapp.com/clientes"
 
         const options = {
             method: 'PUT',
@@ -160,7 +160,7 @@ const clearTable = () => {
 
 const updateTable = async () => {
     clearTable()
-    const url = "https://samuelg7.000webhostapp.com/fastparking/clientes"
+    const url = "https://fastparking-samuel-api.herokuapp.com/clientes"
     const clientes = await getContact(url)
     const customersWhoDidNotPay = clientes.filter(clientes => clientes.status == 0);
     customersWhoDidNotPay.forEach(createRegistration)
@@ -174,7 +174,7 @@ const clearInput = () => {
 const printProofOfEntry = async () => {
     closeChoiceVoucher()
     const index = document.querySelector('#btnPagamento').dataset.index
-    const url = "https://samuelg7.000webhostapp.com/fastparking/clientes"
+    const url = "https://fastparking-samuel-api.herokuapp.com/clientes"
     const data = await getContact(url)
     const clientEqualId = data.filter(data => data.idCliente == index)
     proofOfEntry(clientEqualId)
@@ -199,10 +199,10 @@ const saveClient = async () => {
     if (isValidForm()) {
         
 
-        const urlPrice = "https://samuelg7.000webhostapp.com/fastparking/precos"
+        const urlPrice = "https://fastparking-samuel-api.herokuapp.com/precos"
         const dataPrice = await getContact(urlPrice)
 
-        const urlVacancies = "https://samuelg7.000webhostapp.com/fastparking/vagas"
+        const urlVacancies = "https://fastparking-samuel-api.herokuapp.com/vagas"
         const dataVacancies = await getContact(urlVacancies)
 
         if (dataPrice.length == 0) {
@@ -231,7 +231,7 @@ const saveClient = async () => {
                 decreasesAndIncreasesVacancies(0)
 
 
-                const url = "https://samuelg7.000webhostapp.com/fastparking/clientes"
+                const url = "https://fastparking-samuel-api.herokuapp.com/clientes"
                 const data = await getContact(url)
 
                 const getTheLastRegisteredCustomerId = data.length
@@ -246,7 +246,7 @@ const saveClient = async () => {
 }
 
 const updatePrice = async () => {
-    const url = "https://samuelg7.000webhostapp.com/fastparking/precos"
+    const url = "https://fastparking-samuel-api.herokuapp.com/precos"
     const options = {
         method: 'PUT',
         body: JSON.stringify({
@@ -259,9 +259,9 @@ const updatePrice = async () => {
 
 
 const updateVacancies = async () => {
-    const url = "https://samuelg7.000webhostapp.com/fastparking/vagas"
+    const url = "https://fastparking-samuel-api.herokuapp.com/vagas"
 
-    const urlClient = "https://samuelg7.000webhostapp.com/fastparking/clientes"
+    const urlClient = "https://fastparking-samuel-api.herokuapp.com/clientes"
     const dataClient = await getContact(urlClient)
     const clientEqualStatus = dataClient.filter(dataClient => dataClient.status == 0 )
 
@@ -288,7 +288,7 @@ const savePrice = async () => {
             'demaisHoras': (document.querySelector('#precoAteUmaHora').value).replace(',', '.')
         }
 
-        const url = "https://samuelg7.000webhostapp.com/fastparking/precos"
+        const url = "https://fastparking-samuel-api.herokuapp.com/precos"
         const dataPrice = await getContact(url)
 
         dataPrice.length == 0 ? insertPrice(price) : updatePrice(price)
@@ -320,7 +320,7 @@ const applyMaskCar = (event) => {
 
 const deleteClient = async (index) => {
 
-    const url = "https://samuelg7.000webhostapp.com/fastparking/clientes"
+    const url = "https://fastparking-samuel-api.herokuapp.com/clientes"
     const data = await getContact(url)
 
     const clientEqualId = data.filter(data => data.idCliente == index)
@@ -342,7 +342,7 @@ const deleteClient = async (index) => {
 }
 
 const editClient = async (index) => {
-    const url = "https://samuelg7.000webhostapp.com/fastparking/clientes"
+    const url = "https://fastparking-samuel-api.herokuapp.com/clientes"
     const data = await getContact(url)
     const clientEqualId = data.filter(data => data.idCliente == index)
 
@@ -360,7 +360,7 @@ const editClient = async (index) => {
 
 const showProof = async (index) => {
 
-    const url = "https://samuelg7.000webhostapp.com/fastparking/clientes"
+    const url = "https://fastparking-samuel-api.herokuapp.com/clientes"
     const data = await getContact(url)
 
     const clientEqualId = data.filter(data => data.idCliente == index);
@@ -391,7 +391,7 @@ const exitClient = async () => {
     if (resp) {
 
         const index = document.querySelector('#btnPagamento').dataset.index
-        const url = "https://samuelg7.000webhostapp.com/fastparking/saidas"
+        const url = "https://fastparking-samuel-api.herokuapp.com/saidas"
 
         const options = {
             method: 'PUT',
@@ -411,7 +411,7 @@ const modalVoucherChoice = (index) => {
 
 const showPriceOnInput = async () => {
 
-    const url = "https://samuelg7.000webhostapp.com/fastparking/precos"
+    const url = "https://fastparking-samuel-api.herokuapp.com/precos"
     const dataPrice = await getContact(url)
     dataPrice.forEach(dataPrice => {
         document.querySelector('#umaHoraPreco').value = dataPrice.umaHora.replace('.', ',')
@@ -427,7 +427,7 @@ const showPriceOnInput = async () => {
 }
 
 const showInputVacancies = async () => {
-    const url = "https://samuelg7.000webhostapp.com/fastparking/vagas"
+    const url = "https://fastparking-samuel-api.herokuapp.com/vagas"
     const data = await getContact(url)
 
     data.forEach(data => { document.querySelector('#inputVagas').value = data.numeroTotalVagas })
@@ -476,14 +476,14 @@ const date = () => {
 }
 
 const updateTableCustomersParagram = async () => {
-    const url = "https://samuelg7.000webhostapp.com/fastparking/clientes"
+    const url = "https://fastparking-samuel-api.herokuapp.com/clientes"
     const data = await getContact(url)
     const customersWhoHaveAlreadyPaid = data.filter(data => data.dataSaida === date() && data.status == 1)
     customersWhoHaveAlreadyPaid.forEach(registeringCustomersWhoPaid)
 }
 
 const amountChargedOnTheDay = async () => {
-    const url = "https://samuelg7.000webhostapp.com/fastparking/clientes"
+    const url = "https://fastparking-samuel-api.herokuapp.com/clientes"
     const data = await getContact(url)
     const clientsWhoPaid = data.filter(data => data.status == 1 && data.dataSaida == date());
 
@@ -498,7 +498,7 @@ const amountChargedOnTheDay = async () => {
 
 const exitVoucher = async (index) => {
 
-    const urlClient = "https://samuelg7.000webhostapp.com/fastparking/clientes"
+    const urlClient = "https://fastparking-samuel-api.herokuapp.com/clientes"
     const data = await getContact(urlClient)
 
     const clientEqualId = data.filter(data => data.idCliente == index);
@@ -528,7 +528,7 @@ const saveVacancies = async () => {
             'numeroTotalVagas': document.querySelector('#inputVagas').value
         }
 
-        const url = "https://samuelg7.000webhostapp.com/fastparking/vagas"
+        const url = "https://fastparking-samuel-api.herokuapp.com/vagas"
         const data = await getContact(url)
         data.length == 0 ? insertVacancies(vacancies) : updateVacancies()
 
@@ -539,7 +539,7 @@ const saveVacancies = async () => {
 
 const updateVacanciesText = async () => {
 
-    const url = "https://samuelg7.000webhostapp.com/fastparking/vagas"
+    const url = "https://fastparking-samuel-api.herokuapp.com/vagas"
     const data = await getContact(url)
 
     data.forEach(data => {
@@ -551,7 +551,7 @@ const updateVacanciesText = async () => {
 // status 1 aumenta uma vaga
 
 const decreasesAndIncreasesVacancies = async (status) => {
-    const url = "https://samuelg7.000webhostapp.com/fastparking/vagas"
+    const url = "https://fastparking-samuel-api.herokuapp.com/vagas"
     const data = await getContact(url)
 
     const result = status == 0 ? data[0].numeroVagasDisponivel - 1 : parseInt(data[0].numeroVagasDisponivel) + 1
